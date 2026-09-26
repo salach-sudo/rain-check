@@ -1,0 +1,927 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Rain Check</title>
+<meta name="description" content="How wet you'd get outside, for exactly where you are, updated every few minutes.">
+<meta name="theme-color" content="#1F5FD1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Rain Check">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="apple-touch-icon" href="data:image/png;base64,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">
+<link rel="icon" href="data:image/png;base64,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">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&display=swap">
+<style>
+
+:root{
+  --bg:#E9F0F6; --surface:#FFFFFF; --surface-2:#F3F7FA; --ink:#0F1E2D; --ink-2:#44576A; --ink-3:#6E8193;
+  --rule:#D3DEE8; --accent:#1F5FD1; --slicker:#F2B705; --slicker-ink:#3A2A00;
+  --warn:#9A5B00; --warn-bg:#FFF1D6; --warn-edge:#E39A1C;
+  --water:#2E6FE0; --rain:#5F87B8;
+  --skin:#E8B996; --hair:#6B5A4E; --shirt:#C75C5C; --jeans:#3D5A80; --shoe:#5B4A3E; --pants:#2F3B48; --boot:#2E7D5B; --umb:#7A4FB0;
+  --dry:#2E8B57; --damp:#C98A00; --wet:#2E6FE0; --soaked:#12357A;
+  --l0:#DCE5EE; --l1:#C9DBEC; --l2:#A6C6E6; --l3:#78A8DC; --l4:#4682CF; --l5:#2256AE; --l6:#0E2F6E;
+  --lt0:#0F1E2D; --lt1:#0F1E2D; --lt2:#0F1E2D; --lt3:#0F1E2D; --lt4:#FFFFFF; --lt5:#FFFFFF; --lt6:#FFFFFF;
+  --display:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;
+  --body:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0C141D; --surface:#152130; --surface-2:#1B2A3B; --ink:#EDF3F9; --ink-2:#B2C1D0; --ink-3:#8295A8; --rule:#2A3A4C;
+    --accent:#8DB6FF; --warn:#FFC061; --warn-bg:#35270F; --warn-edge:#C98A2A; --water:#6FA2FF; --rain:#7E9CC4;
+    --dry:#5FCB8F; --damp:#F2B544; --wet:#6FA2FF; --soaked:#B9D2FF;
+    --l0:#1C2A39; --l1:#203A55; --l2:#27507A; --l3:#2F6AA3; --l4:#4A8AD6; --l5:#80B2F2; --l6:#C6DEFF;
+    --lt0:#EDF3F9; --lt1:#EDF3F9; --lt2:#EDF3F9; --lt3:#FFFFFF; --lt4:#0C141D; --lt5:#0C141D; --lt6:#0C141D;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0C141D; --surface:#152130; --surface-2:#1B2A3B; --ink:#EDF3F9; --ink-2:#B2C1D0; --ink-3:#8295A8; --rule:#2A3A4C;
+  --accent:#8DB6FF; --warn:#FFC061; --warn-bg:#35270F; --warn-edge:#C98A2A; --water:#6FA2FF; --rain:#7E9CC4;
+  --dry:#5FCB8F; --damp:#F2B544; --wet:#6FA2FF; --soaked:#B9D2FF;
+  --l0:#1C2A39; --l1:#203A55; --l2:#27507A; --l3:#2F6AA3; --l4:#4A8AD6; --l5:#80B2F2; --l6:#C6DEFF;
+  --lt0:#EDF3F9; --lt1:#EDF3F9; --lt2:#EDF3F9; --lt3:#FFFFFF; --lt4:#0C141D; --lt5:#0C141D; --lt6:#0C141D;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:18px/1.5 var(--body);padding-inline:16px;padding-block:18px 56px}
+.wrap{max-width:980px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance;line-height:1.08}
+h2{font-size:clamp(24px,3.6vw,30px);font-weight:800}
+.sub{color:var(--ink-2);font-size:17px;margin:4px 0 0}
+button{font:inherit;color:inherit}
+button:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+/* top bar */
+.top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px}
+.brand{font-family:var(--display);font-weight:800;font-size:26px;display:flex;align-items:center;gap:10px}
+.brand svg{flex:none}
+.seg{display:inline-flex;background:var(--surface);border:1.5px solid var(--rule);border-radius:999px;padding:4px;gap:4px}
+.seg button{border:0;background:transparent;border-radius:999px;padding:10px 14px;font-weight:700;font-size:17px;cursor:pointer;min-height:46px}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+
+/* hero */
+.hero{background:var(--surface);border-radius:22px;padding:24px;display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:center;border:1.5px solid var(--rule)}
+.hero .kicker{font-weight:700;color:var(--ink-2);font-size:17px}
+.hero h1{font-size:clamp(30px,5.2vw,48px);font-weight:800;margin-top:4px}
+.hero p{margin:10px 0 0;font-size:19px;color:var(--ink);max-width:40ch}
+.hero p b{font-weight:700}
+.clock{width:150px;height:150px;flex:none}
+.clock text{font-family:var(--display)}
+
+/* alerts */
+.alert{background:var(--warn-bg);border:2px solid var(--warn-edge);border-radius:18px;padding:16px 18px;display:flex;gap:14px;align-items:flex-start}
+.alert svg{flex:none;margin-top:2px}
+.alert b{display:block;font-size:19px;color:var(--warn)}
+.alert span{font-size:17px}
+
+/* planner */
+.panel{background:var(--surface);border-radius:22px;padding:22px;border:1.5px solid var(--rule);display:flex;flex-direction:column;gap:18px}
+.step{display:flex;flex-direction:column;gap:10px}
+.step-q{font-weight:700;font-size:19px}
+.hours{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 10px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
+.hour{scroll-snap-align:start;flex:none;width:78px;border-radius:14px;border:2px solid transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px 8px;background:var(--surface-2)}
+.hour .hl{font-weight:700;font-size:16px;white-space:nowrap}
+.hour .dl{font-size:12.5px;color:var(--ink-3);min-height:17px;white-space:nowrap}
+.hour .blk{width:54px;height:40px;border-radius:9px;display:flex;align-items:center;justify-content:center}
+.hour .sm{font-size:13px;color:var(--ink-2);white-space:nowrap}
+.hour[aria-pressed="true"]{border-color:var(--ink);background:var(--surface)}
+.hour.best .dl{color:var(--dry);font-weight:700}
+.durs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.durs button{border:2px solid var(--rule);background:var(--surface-2);border-radius:14px;padding:12px 8px;cursor:pointer;min-height:64px;display:flex;flex-direction:column;align-items:center;gap:2px}
+.durs button b{font-size:20px;font-family:var(--display);font-weight:800}
+.durs button span{font-size:14px;color:var(--ink-2);text-align:center}
+.durs button[aria-pressed="true"]{border-color:var(--ink);background:var(--surface)}
+
+/* outfits */
+.outfits{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.fit{border-radius:18px;background:var(--surface-2);padding:14px 12px 16px;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;position:relative}
+.fit.pick{outline:3px solid var(--dry);outline-offset:-3px}
+.fit .tag{background:var(--dry);color:#fff;font-size:13px;font-weight:700;padding:3px 10px;border-radius:999px;margin-top:-4px}
+:root[data-theme="dark"] .fit .tag{color:#0C141D}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .fit .tag{color:#0C141D}}
+.fit .parts{font-size:15px;color:var(--ink);font-weight:700}
+.fit h3{font-size:19px;font-weight:600;font-family:var(--body);font-weight:700}
+.fit svg{width:100%;max-width:170px;height:auto}
+.verdict{font-family:var(--display);font-weight:800;font-size:24px;line-height:1.1}
+.fit .soak{font-size:15px;color:var(--ink-2);min-height:44px}
+.meter{width:100%;height:10px;border-radius:99px;background:var(--rule);overflow:hidden}
+.meter i{display:block;height:100%;border-radius:99px;transition:width .5s ease}
+.fit .note{font-size:14px;color:var(--warn);font-weight:700}
+
+/* tips */
+.tips{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;margin:0;padding:0;list-style:none}
+.tips li{background:var(--surface);border:1.5px solid var(--rule);border-radius:16px;padding:16px;display:flex;gap:12px;align-items:flex-start;font-size:17px}
+.tips li svg{flex:none}
+.tips b{display:block}
+
+footer{font-size:14.5px;color:var(--ink-3);display:flex;flex-direction:column;gap:4px}
+footer a{color:var(--ink-2)}
+.live{display:inline-flex;align-items:center;gap:8px}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--ink-3)}
+.dot.on{background:var(--dry)}
+.dot.stale{background:var(--warn-edge)}
+
+@keyframes fall{from{transform:translate(0,-30px)}to{transform:translate(var(--dx),230px)}}
+.drop{animation:fall linear infinite}
+@media (prefers-reduced-motion:reduce){.drop{animation:none}.meter i{transition:none}}
+
+@media (max-width:760px){
+  .seg{width:100%}
+  .seg button{flex:1;padding:10px 6px;font-size:16px}
+  .outfits{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .hero{grid-template-columns:1fr;justify-items:start}
+  .clock{width:120px;height:120px}
+  .durs{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .panel,.hero{padding:18px}
+}
+
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}
+.where{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;font-size:16px;color:var(--ink-2)}
+.where b{color:var(--ink)}
+.linkbtn{border:0;background:none;color:var(--accent);font-weight:700;text-decoration:underline;cursor:pointer;padding:6px 2px;min-height:40px}
+.bigbtn{border:0;border-radius:14px;background:var(--accent);color:#fff;font-weight:700;font-size:19px;padding:16px 22px;cursor:pointer;min-height:56px;width:100%}
+:root[data-theme="dark"] .bigbtn{color:#0C141D}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .bigbtn{color:#0C141D}}
+.ghostbtn{border:2px solid var(--rule);border-radius:14px;background:var(--surface);font-weight:700;font-size:17px;padding:12px 18px;cursor:pointer;min-height:52px}
+.setup{display:flex;flex-direction:column;gap:14px;max-width:520px}
+.setup label{font-weight:700;font-size:17px}
+.addr{display:flex;gap:8px}
+.addr input{flex:1;min-width:0;font:inherit;font-size:18px;padding:12px 14px;border-radius:12px;border:2px solid var(--rule);background:var(--surface);color:var(--ink)}
+.addr input:focus{outline:3px solid var(--accent);outline-offset:1px}
+.msg{font-size:16px;color:var(--ink-2);min-height:24px}
+.msg.err{color:var(--warn);font-weight:700}
+.or{display:flex;align-items:center;gap:10px;color:var(--ink-3);font-size:15px}
+.or::before,.or::after{content:"";flex:1;height:1px;background:var(--rule)}
+.nowcast{display:flex;flex-direction:column;gap:10px}
+.nowcast h2{font-size:clamp(22px,3.2vw,27px)}
+.nc-bars{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:6px;align-items:end;height:92px}
+.nc-bar{border-radius:6px 6px 3px 3px;background:var(--l1);min-height:8px;position:relative}
+.nc-lbls{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:6px;font-size:13px;color:var(--ink-3);text-align:center}
+.nc-lbls span:first-child{color:var(--ink);font-weight:700}
+.hidden{display:none!important}
+.spinner{display:inline-block;width:18px;height:18px;border-radius:50%;border:3px solid var(--rule);border-top-color:var(--accent);animation:spin 1s linear infinite;vertical-align:-3px}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.spinner{animation:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path d="M15 3 C9 11 6 15.5 6 19 a9 9 0 0 0 18 0 c0-3.5-3-8-9-16z" fill="var(--water)"/></svg>Rain Check</div>
+    <div class="where" id="where"></div>
+  </header>
+
+  <!-- first-run: pick a location -->
+  <section class="panel hidden" id="setup" aria-label="Choose your location">
+    <div>
+      <h2>Where are you?</h2>
+      <p class="sub">Rain Check gives you the forecast for your exact spot. You only need to do this once.</p>
+    </div>
+    <div class="setup">
+      <button class="bigbtn" id="useGps">Use where I am right now</button>
+      <div class="or">or type an address</div>
+      <label for="addrIn">Street address, neighborhood or town</label>
+      <form class="addr" id="addrForm">
+        <input id="addrIn" type="text" autocomplete="street-address" placeholder="e.g. 250 Court St, Brooklyn">
+        <button class="ghostbtn" type="submit">Find</button>
+      </form>
+      <div class="msg" id="setupMsg" aria-live="polite"></div>
+      <button class="linkbtn hidden" id="cancelSetup" type="button">Keep my current place</button>
+    </div>
+  </section>
+
+  <div id="main" class="hidden" style="display:flex;flex-direction:column;gap:22px">
+    <section class="hero" aria-live="polite">
+      <svg class="clock" id="clock" viewBox="0 0 150 150" role="img" aria-label=""></svg>
+      <div>
+        <div class="kicker" id="heroKicker">Right now</div>
+        <h1 id="heroTitle">Checking the sky</h1>
+        <p id="heroText"></p>
+      </div>
+    </section>
+
+    <div id="alerts" style="display:flex;flex-direction:column;gap:10px"></div>
+
+    <section class="panel nowcast" aria-label="Next two hours">
+      <div>
+        <h2 id="ncTitle">The next two hours</h2>
+        <p class="sub" id="ncText"></p>
+      </div>
+      <div class="nc-bars" id="ncBars" aria-hidden="true"></div>
+      <div class="nc-lbls" id="ncLbls" aria-hidden="true"></div>
+    </section>
+
+    <section class="panel" aria-label="Plan a trip outside">
+      <div>
+        <h2>Going out? See how wet you'd get</h2>
+        <p class="sub">Pick when you're heading out and for how long. The people below show what each outfit would look like when you get back.</p>
+      </div>
+      <div class="step">
+        <div class="step-q">When are you going out?</div>
+        <div class="hours" id="hours" role="group" aria-label="Departure time"></div>
+      </div>
+      <div class="step">
+        <div class="step-q">How long will you be outside?</div>
+        <div class="durs" id="durs" role="group" aria-label="Time outside">
+          <button id="d5" data-m="5" aria-pressed="false"><b>5 min</b><span>Car to door</span></button>
+          <button id="d15" data-m="15" aria-pressed="true"><b>15 min</b><span>Walk to the store</span></button>
+          <button id="d30" data-m="30" aria-pressed="false"><b>30 min</b><span>Errands on foot</span></button>
+          <button id="d60" data-m="60" aria-pressed="false"><b>1 hour</b><span>A long walk</span></button>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-q" id="fitQ">What you'd look like</div>
+        <div class="outfits" id="outfits"></div>
+      </div>
+    </section>
+
+    <section aria-label="Tips">
+      <h2 style="margin-bottom:12px">Good to know today</h2>
+      <ul class="tips" id="tips"></ul>
+    </section>
+
+    <footer id="foot"></footer>
+  </div>
+</div>
+
+<script>/* RainFeel: turns NWS hourly forecast rows into "what the rain will feel like
+ * walking around Manhattan". Plain JS, no imports. Exposes global `RainFeel`.
+ */
+(function (root) {
+  "use strict";
+
+  // ---------------------------------------------------------------------------
+  // Intensity scale (inches per hour).
+  // AMS / NWS: light < 0.10, moderate 0.10 to 0.30, heavy > 0.30 in/hr.
+  // Sub-bands added:
+  //   none      < 0.002  below what a rain gauge tips on (trace)
+  //   mist      0.002 to 0.01  fine droplets you notice on glasses, not on clothes
+  //   drizzle   0.01 to 0.04   NWS drizzle rarely exceeds ~0.04 in/hr; this is the
+  //                            "light" band's lower half that feels like drizzle
+  //   light     0.04 to 0.10   the rest of the AMS light band
+  //   moderate  0.10 to 0.30   AMS moderate
+  //   heavy     0.30 to 0.75   AMS heavy
+  //   downpour  >= 0.75        storm-drain overload territory; NYC's sewers are
+  //                            designed for ~1.75 in/hr and street flooding
+  //                            starts well below that at clogged catch basins
+  // ---------------------------------------------------------------------------
+  var SCALE = [
+    { cls: "none", minInHr: 0, maxInHr: 0.002, label: "Dry",
+      description: "No rain worth noticing.", color: "neutral" },
+    { cls: "mist", minInHr: 0.002, maxInHr: 0.01, label: "Mist",
+      description: "Beads on your glasses, clothes stay dry.", color: "sky" },
+    { cls: "drizzle", minInHr: 0.01, maxInHr: 0.04, label: "Drizzle",
+      description: "Fine steady wet that slowly darkens your sleeves.", color: "teal" },
+    { cls: "light", minInHr: 0.04, maxInHr: 0.10, label: "Light rain",
+      description: "Real drops and small puddles at curb cuts.", color: "blue" },
+    { cls: "moderate", minInHr: 0.10, maxInHr: 0.30, label: "Moderate rain",
+      description: "Steady rain, gutters running, shoes wet in blocks.", color: "indigo" },
+    { cls: "heavy", minInHr: 0.30, maxInHr: 0.75, label: "Heavy rain",
+      description: "Loud on awnings, crosswalk corners turn into ponds.", color: "violet" },
+    { cls: "downpour", minInHr: 0.75, maxInHr: Infinity, label: "Downpour",
+      description: "Sheets of water, flooded corners, subway stairs dripping.", color: "magenta" }
+  ];
+  var ORDER = SCALE.map(function (s) { return s.cls; });
+
+  function classify(rate) {
+    for (var i = SCALE.length - 1; i >= 0; i--) {
+      if (rate >= SCALE[i].minInHr) return SCALE[i].cls;
+    }
+    return "none";
+  }
+  function rank(cls) { return ORDER.indexOf(cls); }
+  function clamp(x, lo, hi) { return Math.max(lo, Math.min(hi, x)); }
+  function round(x, d) { var p = Math.pow(10, d); return Math.round(x * p) / p; }
+
+  // ---------------------------------------------------------------------------
+  // Burst factor.
+  // NWS spreads 6-hour QPF evenly, so the hourly number is an average. In
+  // convective (thunder) hours the rain is not steady: radar climatology of
+  // summer/early-fall NE storms shows most of an hour's total falls in one or
+  // two cells lasting ~15 to 25 minutes. If ~90% of the hour's rain falls in
+  // ~20 minutes, the rate during the burst is 0.9 / (20/60) = 2.7x the average.
+  // We use 2.75 (middle of the 2.5 to 3x range). Stratiform "Rain" is close to
+  // steady; we allow a small 1.15x for embedded heavier bands.
+  // ---------------------------------------------------------------------------
+  var BURST_THUNDER = 2.75;
+  var BURST_STRATIFORM = 1.15;
+
+  // Wind thresholds (mph)
+  var SIDEWAYS_SUSTAINED = 20;
+  var SIDEWAYS_GUST = 35;
+  var UMBRELLA_INVERT_GUST = 35;
+
+  // Approximate raindrop terminal velocity by class (mph). Drizzle drops
+  // (~0.3 mm) fall ~2 m/s (4.5 mph); light rain ~4 m/s (9 mph); moderate
+  // ~5.5 m/s (12 mph); heavy/downpour ~7 m/s (16 mph).
+  var FALL_MPH = { none: 9, mist: 3, drizzle: 4.5, light: 9, moderate: 12, heavy: 16, downpour: 16 };
+
+  // ---------------------------------------------------------------------------
+  // Wind exposure multiplier (driving-rain index, simplified).
+  // Rain hitting a vertical surface (a walking person's front) scales with the
+  // horizontal speed of the drops relative to you over their fall speed:
+  //     mult = 1 + U / Vt
+  // U = effective wind = sustained + 0.25 * (gust - sustained)  (gusts are
+  //     intermittent, so they count for a quarter) + 3 mph walking speed.
+  // Capped at 3: Manhattan street canyons shelter you on part of every block,
+  // and people turn their backs to the worst of it.
+  // ---------------------------------------------------------------------------
+  function windMultiplier(h, cls) {
+    var U = (h.wind || 0) + 0.25 * Math.max(0, (h.gust || 0) - (h.wind || 0)) + 3;
+    var vt = FALL_MPH[cls] || 9;
+    return clamp(1 + U / vt, 1, 3);
+  }
+
+  function windInfo(h) {
+    var w = h.wind || 0, g = h.gust || 0;
+    var driven = w >= SIDEWAYS_SUSTAINED || g >= SIDEWAYS_GUST;
+    var label;
+    if (g >= 50 || w >= 35) label = "Gale gusts, rain flying sideways";
+    else if (g >= UMBRELLA_INVERT_GUST) label = "Sideways rain, umbrella-flipping gusts";
+    else if (driven) label = "Wind-driven rain, slanting hard";
+    else if (w >= 12) label = "Breezy, rain slants a bit";
+    else label = "Light wind, rain falls straight";
+    return { windDriven: driven, windLabel: label };
+  }
+
+  // Short vivid phrase, 8 words or fewer.
+  function phrase(cls, driven, gust, thunder) {
+    var strong = gust >= UMBRELLA_INVERT_GUST;
+    var P = {
+      none:     ["Dry streets, normal walk", "Dry but gusty, hold your hat", "Dry, wind tunnels down the avenues"],
+      mist:     ["Damp air, beads on your glasses", "Mist blowing in your face", "Wind-whipped mist stinging your cheeks"],
+      drizzle:  ["Fine drizzle, sidewalks slick and shiny", "Drizzle blowing under every awning", "Needle drizzle driven sideways off the river"],
+      light:    ["Steady light rain, small curb puddles", "Slanting rain, wet pant legs by the corner", "Sideways rain soaking one whole side"],
+      moderate: ["Steady rain, gutters running at corners", "Blowing rain, cab splash at every crosswalk", "Sideways sheets, umbrellas dying in trash cans"],
+      heavy:    ["Heavy rain, crosswalk corners become ponds", "Pounding rain, ankle-deep puddles at curbs", "Wind-blasted rain, soaked within one block"],
+      downpour: ["Downpour, flooded corners and dripping subway stairs", "Torrents off awnings, streets running like rivers", "Blinding sideways deluge, get indoors now"]
+    };
+    var idx = strong ? 2 : driven ? 1 : 0;
+    var s = P[cls][idx];
+    if (thunder && rank(cls) >= rank("light") && s.split(" ").length <= 5) s += ", thunder overhead";
+    return s;
+  }
+
+  // ---------------------------------------------------------------------------
+  // analyzeHour
+  // ---------------------------------------------------------------------------
+  function analyzeHour(h) {
+    var avg = Math.max(0, +h.qpf || 0);
+    var thunder = /t-?storm|thunder/i.test(h.cond || "");
+    var burst = avg > 0 ? (thunder ? BURST_THUNDER : BURST_STRATIFORM) : 1;
+    var peak = avg * burst;
+    // The class reflects what you feel while it is actually raining, i.e. the
+    // peak rate (for steady rain peak is only slightly above the average).
+    var cls = classify(peak);
+    var wi = windInfo(h);
+    var gust = h.gust || 0;
+    var raining = cls !== "none";
+
+    // Umbrella verdict
+    var verdict, reason;
+    if (!raining) {
+      verdict = "skip"; reason = "No meaningful rain expected this hour.";
+    } else if (cls === "mist" && gust < UMBRELLA_INVERT_GUST) {
+      verdict = "skip"; reason = "Just mist; a hood or cap is plenty.";
+    } else if (gust >= UMBRELLA_INVERT_GUST) {
+      verdict = "useless—wear a shell";
+      reason = "Gusts to " + gust + " mph will flip an umbrella; wear a hooded rain shell.";
+    } else if (wi.windDriven) {
+      verdict = "bring";
+      reason = "Bring a sturdy umbrella and angle it into the wind.";
+    } else {
+      verdict = "bring"; reason = "Rain falls mostly straight down; an umbrella does the job.";
+    }
+    var umbrellaLabel = verdict === "useless—wear a shell" ? "Useless, wear a shell"
+      : verdict === "bring" ? "Bring one" : "Skip it";
+
+    // -------------------------------------------------------------------------
+    // soakMinutes
+    //   Ieff = avgRate * windMultiplier            (in/hr landing on your front)
+    //   soakMinutes = 60 * S / Ieff,  S = 0.04 in
+    // S: a cotton tee plus denim front feels soaked through at roughly 1 mm
+    // of absorbed water per unit of exposed area (~1 kg/m2, denim holds most
+    // of it); 0.04 in = 1.0 mm. We use the hourly average (not peak) because
+    // soaking integrates over the walk. For thunder hours we use the geometric mean of
+    // average and peak: a walk of a few minutes has a fair chance of catching
+    // part of a burst. Capped at 120; null when no rain.
+    // -------------------------------------------------------------------------
+    var mult = raining ? windMultiplier(h, cls) : 1;
+    var soakRate = thunder ? Math.sqrt(avg * peak) : avg;
+    var Ieff = soakRate * mult;
+    var soak = null;
+    if (raining && Ieff > 0) soak = Math.round(clamp(60 * 0.04 / Ieff, 1, 120));
+
+    // -------------------------------------------------------------------------
+    // Severity and expectedWetScore
+    //   rateScore = log10(peak / 0.005) / log10(1.0 / 0.005), clamped 0..1
+    //     (log scale: 0.005 in/hr is ~0, 1 in/hr is 1; perception of rain is
+    //     closer to logarithmic than linear)
+    //   windScore = (gust - 15) / 40, clamped 0..1
+    //   severity  = 100 * (0.7 * rateScore + 0.3 * windScore), 0 if no rain
+    //   expectedWetScore = pop/100 * severity
+    // -------------------------------------------------------------------------
+    var rateScore = peak > 0 ? clamp(Math.log(peak / 0.005) / Math.log(1.0 / 0.005), 0, 1) : 0;
+    var windScore = clamp((gust - 15) / 40, 0, 1);
+    var severity = raining ? 100 * (0.7 * rateScore + 0.3 * windScore) : 0;
+    var wetScore = Math.round(clamp((h.pop || 0) / 100 * severity, 0, 100));
+
+    // -------------------------------------------------------------------------
+    // apparentTempF
+    //   Base: NWS heat index if temp >= 80 F (simple Steadman form), NWS wind
+    //   chill if temp <= 50 F and wind > 3 mph; otherwise the air temperature.
+    //   Wet-wind cooling (applies when raining, any temp): wet clothing loses
+    //   heat by evaporation and conduction much faster in wind. We subtract
+    //   0.12 F per mph of sustained wind above 5 mph, capped at 5 F, and scale
+    //   it by how wet you get (0.6 for mist/drizzle, 1.0 for light and up).
+    //   Dry but windy above 50 F: subtract 0.05 F per mph above 10, cap 2 F.
+    // -------------------------------------------------------------------------
+    var T = h.temp, V = h.wind || 0, app = T;
+    if (T >= 80) {
+      var RH = h.rh || 50;
+      app = 0.5 * (T + 61 + (T - 68) * 1.2 + RH * 0.094);
+    } else if (T <= 50 && V > 3) {
+      var v16 = Math.pow(V, 0.16);
+      app = 35.74 + 0.6215 * T - 35.75 * v16 + 0.4275 * T * v16;
+    }
+    var cool;
+    if (raining) {
+      var wetness = rank(cls) >= rank("light") ? 1 : 0.6;
+      cool = Math.min(5, 0.12 * Math.max(0, V - 5)) * wetness;
+    } else {
+      cool = Math.min(2, 0.05 * Math.max(0, V - 10));
+    }
+    app = Math.round(app - cool);
+
+    return {
+      t: h.t,
+      intensityInHr: round(avg, 3),
+      intensityClass: cls,
+      burstFactor: burst,
+      peakInHr: round(peak, 3),
+      thunder: thunder,
+      windDriven: wi.windDriven,
+      windLabel: wi.windLabel,
+      umbrellaVerdict: verdict,
+      umbrellaLabel: umbrellaLabel,
+      umbrellaReason: reason,
+      feelsLike: phrase(cls, wi.windDriven, gust, thunder),
+      soakMinutes: soak,
+      severity: Math.round(severity),
+      expectedWetScore: wetScore,
+      apparentTempF: app
+    };
+  }
+
+  // ---------------------------------------------------------------------------
+  // Time helpers (work on the ISO local string directly to avoid viewer TZ).
+  // ---------------------------------------------------------------------------
+  function hourOf(t) { return parseInt(String(t).slice(11, 13), 10); }
+  function fmtHour(hr) {
+    hr = ((hr % 24) + 24) % 24;
+    if (hr === 0) return "midnight";
+    if (hr === 12) return "noon";
+    return (hr % 12) + (hr < 12 ? " AM" : " PM");
+  }
+  function addHour(t) {
+    // Shift the wall-clock hour by one, keeping the original offset suffix.
+    var d = new Date(new Date(t).getTime() + 3600e3);
+    var off = String(t).slice(19) || "Z";
+    var m = /([+-])(\d\d):(\d\d)/.exec(off);
+    var offMin = m ? (m[1] === "-" ? -1 : 1) * (+m[2] * 60 + +m[3]) : 0;
+    var local = new Date(d.getTime() + offMin * 60e3).toISOString().slice(0, 19);
+    return local + (m ? off : "Z");
+  }
+  function rangeLabel(startT, endT) { return fmtHour(hourOf(startT)) + " to " + fmtHour(hourOf(endT)); }
+
+  // ---------------------------------------------------------------------------
+  // summarize
+  // ---------------------------------------------------------------------------
+  function summarize(hours) {
+    var A = hours.map(analyzeHour);
+    var n = A.length;
+    var totalQpf = round(hours.reduce(function (s, h) { return s + (+h.qpf || 0); }, 0), 2);
+    var maxGust = hours.reduce(function (m, h) { return Math.max(m, h.gust || 0); }, 0);
+
+    // Wettest 3-hour window by expected peak-weighted rain (pop * peak), which
+    // favors the thunder bursts you would actually notice.
+    var W = Math.min(3, n), best = -1, bi = 0, least = Infinity, li = 0;
+    for (var i = 0; i + W <= n; i++) {
+      var wet = 0, dryScore = 0;
+      for (var j = i; j < i + W; j++) {
+        wet += (hours[j].pop || 0) / 100 * A[j].peakInHr;
+        dryScore += A[j].expectedWetScore;
+      }
+      if (wet > best) { best = wet; bi = i; }
+      if (dryScore < least) { least = dryScore; li = i; }
+    }
+    // Grow the wettest window across neighbors with the same class and verdict.
+    var ws = bi, we = bi + W - 1;
+    while (ws > 0 && A[ws - 1].intensityClass === A[bi].intensityClass && A[ws - 1].thunder === A[bi].thunder) ws--;
+    while (we < n - 1 && A[we + 1].intensityClass === A[bi].intensityClass && A[we + 1].thunder === A[bi].thunder) we++;
+    var peakCls = A.slice(ws, we + 1).reduce(function (m, a) { return rank(a.intensityClass) > rank(m) ? a.intensityClass : m; }, "none");
+    var wetLabelBase = SCALE[rank(peakCls)].label + (A[bi].thunder ? " in thunderstorm bursts" : "");
+    var wettestWindow = {
+      start: hours[ws].t, end: addHour(hours[we].t),
+      label: rangeLabel(hours[ws].t, addHour(hours[we].t)) + ": " + wetLabelBase.toLowerCase()
+    };
+    var driestWindow = { start: hours[li].t, end: addHour(hours[li + W - 1].t),
+      label: rangeLabel(hours[li].t, addHour(hours[li + W - 1].t)) };
+
+    // Contiguous windows with same class + verdict
+    var windows = [];
+    A.forEach(function (a, k) {
+      var last = windows[windows.length - 1];
+      if (last && last.intensityClass === a.intensityClass && last.umbrellaVerdict === a.umbrellaVerdict) {
+        last.end = addHour(hours[k].t); last.hours++;
+        last.maxWetScore = Math.max(last.maxWetScore, a.expectedWetScore);
+        last.minSoakMinutes = a.soakMinutes == null ? last.minSoakMinutes
+          : last.minSoakMinutes == null ? a.soakMinutes : Math.min(last.minSoakMinutes, a.soakMinutes);
+        last.thunder = last.thunder || a.thunder;
+      } else {
+        windows.push({ start: hours[k].t, end: addHour(hours[k].t), hours: 1,
+          intensityClass: a.intensityClass, umbrellaVerdict: a.umbrellaVerdict,
+          umbrellaLabel: a.umbrellaLabel, thunder: a.thunder,
+          maxWetScore: a.expectedWetScore, minSoakMinutes: a.soakMinutes });
+      }
+    });
+    windows.forEach(function (w) {
+      w.label = rangeLabel(w.start, w.end) + ": " + SCALE[rank(w.intensityClass)].label.toLowerCase() +
+        (w.thunder ? " with thunder" : "") + ", umbrella " +
+        (w.umbrellaVerdict === "skip" ? "optional" : w.umbrellaVerdict === "bring" ? "helps" : "useless");
+    });
+
+    // Headline (one sentence, 20 words or fewer)
+    var allUseless = A.every(function (a) { return a.umbrellaVerdict !== "bring"; }) &&
+      A.some(function (a) { return a.umbrellaVerdict !== "skip"; });
+    var headline;
+    if (!A.some(function (a) { return a.intensityClass !== "none"; })) {
+      headline = maxGust >= 35 ? "Dry but blustery, gusts to " + maxGust + " mph." : "Dry for the next day.";
+    } else {
+      headline = "Wet and windy throughout, worst " + rangeLabel(wettestWindow.start, wettestWindow.end) +
+        "; gusts to " + maxGust + " mph" + (allUseless ? " make umbrellas useless." : ".");
+    }
+
+    return { totalQpf: totalQpf, wettestWindow: wettestWindow, driestWindow: driestWindow,
+      maxGust: maxGust, headline: headline, windows: windows, hours: A };
+  }
+
+  root.RainFeel = { analyzeHour: analyzeHour, summarize: summarize, SCALE: SCALE, classify: classify };
+})(typeof window !== "undefined" ? window : globalThis);
+</script>
+<script>
+(function(){
+"use strict";
+const $=id=>document.getElementById(id);
+const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const RANK=RainFeel.SCALE.map(s=>s.cls), ci=c=>Math.max(0,RANK.indexOf(c));
+const PLAIN={none:"Dry",mist:"A little mist",drizzle:"Drizzle",light:"Light rain",moderate:"Steady rain",heavy:"Heavy rain",downpour:"Pouring"};
+const store={get(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+
+/* ---------- outfit model ---------- */
+// Share of full exposure each body zone gets, relative to plain cotton with no cover.
+function factors(outfit,a,h){
+  const g=h.gust||h.wind||0, wd=a.windDriven, heavyFeet=ci(a.intensityClass)>=ci("moderate");
+  const feetShoe=heavyFeet?1.6:1.1;          // sneakers fill fast once puddles form
+  if(outfit==="none") return {head:1,torso:1,legs:1,feet:feetShoe};
+  if(outfit==="umbrella"){
+    if(g>=35) return {head:1,torso:1,legs:1,feet:feetShoe,flip:true};
+    if(g>=20) return {head:.3,torso:.5,legs:.9,feet:feetShoe};
+    return {head:.05,torso:.15,legs:.6,feet:feetShoe};
+  }
+  if(outfit==="jacket") return {head:wd?.25:.1,torso:.05,legs:1,feet:feetShoe};
+  return {head:wd?.25:.1,torso:.05,legs:.08,feet:heavyFeet?.1:.05}; // jacket + rain pants + boots
+}
+function wetness(outfit,a,h,mins){
+  const f=factors(outfit,a,h);
+  if(a.soakMinutes==null) return {z:{head:0,torso:0,legs:0,feet:0},score:0,soakIn:null,flip:f.flip};
+  const S=a.soakMinutes, z={};
+  for(const k of ["head","torso","legs","feet"]) z[k]=Math.min(1,mins*f[k]/S);
+  const score=Math.max(z.torso,z.legs,z.feet*.7,z.head*.6);
+  const worst=Math.max(f.torso,f.legs,f.feet*.7);
+  const soakIn=S*.85/worst;
+  return {z,score,soakIn,flip:f.flip};
+}
+const VERD=s=>s<.15?["Dry","var(--dry)"]:s<.45?["A bit damp","var(--damp)"]:s<.85?["Wet","var(--wet)"]:["Soaked through","var(--soaked)"];
+const mins=m=>m<1.5?"under 2 minutes":m>=120?"over 2 hours":m>=60?`about ${Math.round(m/60*2)/2} hour${m>=90?"s":""}`:`about ${Math.round(m)} minutes`;
+
+/* ---------- figure ---------- */
+function mix(base,w){return w<=0?base:`color-mix(in srgb, var(--water) ${Math.round(w*70)}%, ${base})`;}
+function figure(outfit,wet,a,h,key){
+  const z=wet.z, g=h.gust||0, rainy=a.intensityClass!=="none";
+  const lean=Math.min(28,(h.wind||0)*0.9);           // rain slant in px per 230px fall
+  const n=rainy?[0,6,10,14,18,24,30,34][ci(a.intensityClass)]:0;
+  let drops="";
+  for(let i=0;i<n;i++){
+    const x=(i*37+key*13)%150+5, d=(0.55+((i*7)%5)*0.08)/(1+ci(a.intensityClass)*0.08), dl=-((i*0.37)%1.4);
+    drops+=`<line class="drop" x1="${x}" y1="0" x2="${x+lean*0.06}" y2="9" stroke="var(--rain)" stroke-width="1.6" stroke-linecap="round" style="--dx:${lean}px;animation-duration:${d.toFixed(2)}s;animation-delay:${dl.toFixed(2)}s"/>`;
+  }
+  const jacket=outfit==="jacket"||outfit==="gear", pants=outfit==="gear";
+  const torsoC=jacket?"var(--slicker)":"var(--shirt)", legC=pants?"var(--pants)":"var(--jeans)", footC=pants?"var(--boot)":"var(--shoe)";
+  let s=`<svg viewBox="0 0 160 230" role="img" aria-label="${esc(VERD(wet.score)[0])}"><defs><clipPath id="cp${key}"><rect x="0" y="0" width="160" height="230" rx="14"/></clipPath></defs><g clip-path="url(#cp${key})">${drops}`;
+  // puddle
+  if(ci(a.intensityClass)>=ci("light")) s+=`<ellipse cx="80" cy="218" rx="${40+ci(a.intensityClass)*6}" ry="6" fill="var(--water)" opacity=".28"/>`;
+  // legs
+  s+=`<path d="M62 132 L60 196 L76 196 L79 142 L81 142 L84 196 L100 196 L98 132 Z" fill="${mix(legC,z.legs)}"/>`;
+  // feet
+  s+=pants?`<path d="M57 190 h21 v18 h-24 a3 3 0 0 1 -3 -3 v-3 a12 12 0 0 1 6 -12z M82 190 h21 v12 a12 12 0 0 1 6 3 v0 a3 3 0 0 1 -3 3 h-24z" fill="${mix(footC,z.feet*.3)}"/>`
+          :`<path d="M58 196 h18 v8 h-22 a4 4 0 0 1 4 -8z M84 196 h18 a4 4 0 0 1 4 8 h-22z" fill="${mix(footC,z.feet)}"/>`;
+  // torso + arms
+  s+=`<path d="M60 76 Q80 70 100 76 L106 134 L54 134 Z" fill="${mix(torsoC,z.torso)}"/>`;
+  s+=`<path d="M60 78 L46 118 L52 121 L64 94 Z M100 78 L114 118 L108 121 L96 94 Z" fill="${mix(torsoC,z.torso)}"/>`;
+  s+=`<circle cx="49" cy="122" r="5" fill="var(--skin)"/><circle cx="111" cy="122" r="5" fill="var(--skin)"/>`;
+  if(jacket) s+=`<line x1="80" y1="78" x2="80" y2="132" stroke="var(--slicker-ink)" stroke-width="1.5" opacity=".5"/>`;
+  // head
+  s+=`<rect x="75" y="64" width="10" height="10" fill="var(--skin)"/><circle cx="80" cy="52" r="16" fill="var(--skin)"/>`;
+  if(jacket) s+=`<path d="M61 56 a19 21 0 0 1 38 0 L98 70 Q80 62 62 70 Z" fill="${mix("var(--slicker)",z.head*.5)}"/>`;
+  else s+=`<path d="M64 50 a16 16 0 0 1 32 0 q-6 -6 -16 -5 q-10 -1 -16 5z" fill="${mix("var(--hair)",z.head)}"/>`;
+  s+=`<circle cx="74" cy="54" r="1.8" fill="var(--ink)"/><circle cx="86" cy="54" r="1.8" fill="var(--ink)"/>`;
+  const sc=wet.score; s+= sc<.45?`<path d="M74 60 q6 5 12 0" stroke="var(--ink)" stroke-width="1.8" fill="none" stroke-linecap="round"/>`:`<path d="M74 62 q6 -4 12 0" stroke="var(--ink)" stroke-width="1.8" fill="none" stroke-linecap="round"/>`;
+  // drips when wet
+  if(sc>=.45){ for(const [x,y] of [[58,138],[102,138],[66,200],[94,200]]) s+=`<path d="M${x} ${y} q-3 5 0 7 q3 -2 0 -7z" fill="var(--water)"/>`; }
+  // umbrella
+  if(outfit==="umbrella"){
+    if(wet.flip) s+=`<g transform="rotate(${-18} 112 120)"><line x1="112" y1="120" x2="112" y2="28" stroke="var(--ink-2)" stroke-width="2.5"/><path d="M84 8 Q98 34 112 28 Q126 34 140 8 Q128 22 112 18 Q96 22 84 8z" fill="var(--umb)"/><line x1="112" y1="28" x2="90" y2="12" stroke="var(--ink-2)" stroke-width="1"/><line x1="112" y1="28" x2="134" y2="12" stroke="var(--ink-2)" stroke-width="1"/></g>`;
+    else s+=`<line x1="111" y1="120" x2="${80+lean*.3}" y2="26" stroke="var(--ink-2)" stroke-width="2.5"/><path d="M${34+lean*.3} 38 Q${80+lean*.3} -6 ${126+lean*.3} 38 Q${103+lean*.3} 30 ${80+lean*.3} 38 Q${57+lean*.3} 30 ${34+lean*.3} 38z" fill="var(--umb)"/>`;
+  }
+  return s+`</g></svg>`;
+}
+
+/* ---------- hero clock ---------- */
+function clockSvg(minutesToSoak){
+  const m=minutesToSoak==null?null:Math.min(60,minutesToSoak), frac=m==null?0:m/60;
+  const R=60, C=2*Math.PI*R;
+  const big=m==null?"Dry":minutesToSoak>=60?"60+":Math.max(1,Math.round(minutesToSoak));
+  let s=`<circle cx="75" cy="75" r="${R}" fill="none" stroke="var(--rule)" stroke-width="14"/>`;
+  if(m!=null) s+=`<circle cx="75" cy="75" r="${R}" fill="none" stroke="var(--water)" stroke-width="14" stroke-linecap="round" stroke-dasharray="${Math.max(2,frac*C)} ${C}" transform="rotate(-90 75 75)"/>`;
+  s+=`<text x="75" y="${m==null?84:80}" text-anchor="middle" font-size="${m==null?30:44}" font-weight="800" fill="var(--ink)">${big}</text>`;
+  if(m!=null) s+=`<text x="75" y="102" text-anchor="middle" font-size="14" fill="var(--ink-2)" style="font-family:var(--body)">minutes</text>`;
+  return s;
+}
+
+
+/* ---------- state ---------- */
+let loc=store.get("rc.loc");            // {lat, lon, label, precise}
+let wx=store.get("rc.wx");              // last good forecast bundle
+let TZ=(wx&&wx.tz)||Intl.DateTimeFormat().resolvedOptions().timeZone;
+let rows=[], A=[], sel=0, dur=15, loading=false, lastErr=null;
+const fmts={};
+function F(kind){
+  const key=kind+TZ; if(fmts[key]) return fmts[key];
+  const o={hour:{hour:"numeric"},dow:{weekday:"long"},clock:{hour:"numeric",minute:"2-digit"},full:{weekday:"long",hour:"numeric",minute:"2-digit"}}[kind];
+  return fmts[key]=new Intl.DateTimeFormat("en-US",Object.assign({timeZone:TZ},o));
+}
+const hl=t=>{const h=F("hour").format(new Date(t));return h==="12 AM"?"Midnight":h==="12 PM"?"Noon":h;};
+const dow=t=>F("dow").format(new Date(t));
+const clock=t=>F("clock").format(new Date(t));
+
+/* ---------- data ---------- */
+const THUNDER=new Set([95,96,99]), SNOW=new Set([71,73,75,77,85,86]);
+function offStr(sec){const s=sec<0?"-":"+",a=Math.abs(sec);return s+String(Math.floor(a/3600)).padStart(2,"0")+":"+String(Math.floor(a%3600/60)).padStart(2,"0");}
+async function getJSON(url,ms){
+  const c=new AbortController(), t=setTimeout(()=>c.abort(),ms||15000);
+  try{const r=await fetch(url,{signal:c.signal}); if(!r.ok) throw new Error("HTTP "+r.status); return await r.json();}
+  finally{clearTimeout(t);}
+}
+async function fetchForecast(lat,lon){
+  const q=new URLSearchParams({latitude:lat.toFixed(4),longitude:lon.toFixed(4),
+    hourly:"temperature_2m,relative_humidity_2m,precipitation_probability,precipitation,weather_code,wind_speed_10m,wind_gusts_10m,wind_direction_10m",
+    minutely_15:"precipitation,weather_code",current:"temperature_2m,precipitation,weather_code,wind_speed_10m,wind_gusts_10m",
+    forecast_hours:"30",past_hours:"1",forecast_minutely_15:"8",past_minutely_15:"0",
+    temperature_unit:"fahrenheit",wind_speed_unit:"mph",precipitation_unit:"inch",timezone:"auto"});
+  const d=await getJSON("https://api.open-meteo.com/v1/forecast?"+q);
+  const off=offStr(d.utc_offset_seconds||0), H=d.hourly;
+  const hours=H.time.map((t,i)=>({t:t+":00"+off,temp:Math.round(H.temperature_2m[i]),rh:H.relative_humidity_2m[i],
+    pop:H.precipitation_probability[i]==null?0:H.precipitation_probability[i],qpf:H.precipitation[i]||0,code:H.weather_code[i],
+    cond:THUNDER.has(H.weather_code[i])?"T-storms/Rain":"Rain",snow:SNOW.has(H.weather_code[i]),
+    wind:Math.round(H.wind_speed_10m[i]||0),gust:Math.round(H.wind_gusts_10m[i]||H.wind_speed_10m[i]||0),dir:H.wind_direction_10m[i]||0}));
+  const M=d.minutely_15||{time:[],precipitation:[]};
+  const quarter=M.time.map((t,i)=>({t:t+":00"+off,p:M.precipitation[i]||0,code:(M.weather_code||[])[i]}));
+  return {tz:d.timezone,hours,quarter,current:d.current||null};
+}
+async function fetchAlerts(lat,lon){
+  try{
+    const d=await getJSON(`https://api.weather.gov/alerts/active?point=${lat.toFixed(4)},${lon.toFixed(4)}`,12000);
+    return (d.features||[]).map(f=>f.properties).filter(p=>p&&p.status!=="Test"&&p.messageType!=="Cancel")
+      .map(p=>({event:p.event,ends:p.ends||p.expires,severity:p.severity,headline:p.headline,description:p.description||""}));
+  }catch(e){return null;}
+}
+async function refresh(force){
+  if(!loc||loading) return;
+  if(!force&&wx&&wx.lat===loc.lat&&wx.lon===loc.lon&&Date.now()-wx.fetchedAt<9*60e3) return;
+  loading=true; renderFoot();
+  try{
+    const [f,al]=await Promise.all([fetchForecast(loc.lat,loc.lon),fetchAlerts(loc.lat,loc.lon)]);
+    wx=Object.assign(f,{alerts:al==null?(wx&&wx.lat===loc.lat?wx.alerts:[]):al,alertsOk:al!=null,fetchedAt:Date.now(),lat:loc.lat,lon:loc.lon});
+    TZ=wx.tz||TZ; store.set("rc.wx",wx); lastErr=null;
+  }catch(e){lastErr=e;}
+  loading=false; render();
+}
+
+/* ---------- location ---------- */
+function showSetup(first){
+  $("setup").classList.remove("hidden"); $("main").classList.toggle("hidden",first!==false||!wx);
+  $("cancelSetup").classList.toggle("hidden",!loc); $("setupMsg").textContent=""; $("setupMsg").className="msg";
+  if(!first) $("setup").scrollIntoView({behavior:"smooth"});
+}
+function setLoc(l){loc=l; store.set("rc.loc",l); $("setup").classList.add("hidden"); $("main").classList.remove("hidden"); sel=0; render(); refresh(true); if(!l.label) nameIt(l);}
+async function nameIt(l){
+  try{
+    const d=await getJSON(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&zoom=17&lat=${l.lat}&lon=${l.lon}`,8000);
+    const a=d.address||{}; const street=a.road?((a.house_number?a.house_number+" ":"")+a.road):null;
+    const area=a.neighbourhood||a.suburb||a.city_district||a.town||a.village||a.city||"";
+    const label=[street,area].filter(Boolean).join(", ")||d.name||"";
+    if(label&&loc&&loc.lat===l.lat){loc.label=label;store.set("rc.loc",loc);renderWhere();}
+  }catch(e){}
+}
+function msg(t,err){$("setupMsg").innerHTML=t;$("setupMsg").className="msg"+(err?" err":"");}
+$("useGps").addEventListener("click",()=>{
+  if(!navigator.geolocation){msg("This browser can't share your location. Type an address instead.",true);return;}
+  msg('<span class="spinner"></span> Finding you. If your phone asks, tap Allow.');
+  navigator.geolocation.getCurrentPosition(p=>{
+    setLoc({lat:+p.coords.latitude.toFixed(4),lon:+p.coords.longitude.toFixed(4),label:"",precise:true,gps:true});
+  },e=>{
+    msg(e.code===1?"Location is turned off for this page. You can type your address instead, or allow location in your browser settings.":"Couldn't find your location just now. Try again, or type your address.",true);
+  },{enableHighAccuracy:true,timeout:15000,maximumAge:60000});
+});
+$("addrForm").addEventListener("submit",async e=>{
+  e.preventDefault(); const q=$("addrIn").value.trim(); if(!q) return;
+  msg('<span class="spinner"></span> Looking that up');
+  try{
+    const r=await getJSON("https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&addressdetails=1&q="+encodeURIComponent(q),10000);
+    if(!r.length){msg("Couldn't find that address. Try adding the town, like “Court St, Brooklyn”.",true);return;}
+    const a=r[0].address||{}, street=a.road?((a.house_number?a.house_number+" ":"")+a.road):null;
+    const label=[street,a.neighbourhood||a.suburb||a.town||a.village||a.city].filter(Boolean).join(", ")||r[0].display_name.split(",").slice(0,2).join(",");
+    setLoc({lat:+(+r[0].lat).toFixed(4),lon:+(+r[0].lon).toFixed(4),label,precise:!!a.house_number});
+  }catch(err){msg("Couldn't reach the address lookup. Check your internet connection and try again.",true);}
+});
+$("cancelSetup").addEventListener("click",()=>{$("setup").classList.add("hidden");$("main").classList.remove("hidden");});
+
+/* ---------- render ---------- */
+function renderWhere(){
+  $("where").innerHTML=loc?`<span>For <b>${esc(loc.label||"your location")}</b></span><button class="linkbtn" id="chg">Change place</button>${loc.gps?'<button class="linkbtn" id="regps">Update to where I am</button>':""}`:"";
+  const c=$("chg"); if(c) c.onclick=()=>showSetup(false);
+  const g=$("regps"); if(g) g.onclick=()=>{$("useGps").click(); showSetup(false);};
+}
+function render(){
+  renderWhere();
+  if(!loc){showSetup(true);return;}
+  if(!wx||wx.lat!==loc.lat||wx.lon!==loc.lon){
+    $("heroTitle").textContent=lastErr?"Can't reach the forecast":"Checking the sky";
+    $("heroText").textContent=lastErr?"Check your internet connection. Rain Check will try again automatically.":"";
+    $("clock").innerHTML=""; renderFoot(); return;
+  }
+  const now=Date.now();
+  rows=wx.hours.filter(h=>new Date(h.t).getTime()+3600e3>now).slice(0,24);
+  if(!rows.length){$("heroTitle").textContent="Forecast is out of date";$("heroText").textContent="Connect to the internet to get a fresh one.";renderFoot();return;}
+  A=rows.map(RainFeel.analyzeHour);
+  if(sel>=rows.length) sel=0;
+  renderHero(); renderNowcast(); renderAlerts(); renderHours(); renderOutfits(); renderTips(); renderFoot();
+}
+function renderHero(){
+  const a=A[0], h=rows[0], w=wetness("none",a,h,60), windy=(h.gust||0)>=35;
+  $("heroKicker").textContent="Right now · "+clock(Date.now());
+  const q0=(wx.quarter||[]).find(q=>new Date(q.t).getTime()+15*60e3>Date.now());
+  const dryMoment=q0&&q0.p*4<0.005&&a.intensityClass!=="none";
+  const snow=h.snow&&a.intensityClass!=="none";
+  $("heroTitle").textContent=a.intensityClass==="none"?(windy?"Dry, but very windy":"No rain right now"):(snow?"Snow":PLAIN[a.intensityClass])+(windy?" and strong wind":"")+(a.thunder?", maybe thunder":"");
+  $("heroText").innerHTML=a.soakMinutes==null
+    ?`You can go out in everyday clothes and stay dry.`+(windy?` Gusts up to ${h.gust} mph, so hold on to your hat.`:"")
+    :snow?`Snow is falling or likely. Dress warmly and watch your footing.`
+    :(dryMoment?`It's dry this minute, but rain is due within the hour. Once it starts, `:`In`)+`${dryMoment?"in":""} everyday clothes you'd be <b>soaked in ${mins(w.soakIn)}</b>.`+(windy?` Gusts up to ${h.gust} mph will turn an umbrella inside out, so a hooded rain jacket is the better bet.`:` An umbrella helps a lot.`);
+  $("clock").innerHTML=clockSvg(snow?null:w.soakIn); $("clock").setAttribute("aria-label",a.soakMinutes==null?"Dry":"Soaked in "+mins(w.soakIn)+" in everyday clothes");
+}
+function renderNowcast(){
+  const Q=(wx.quarter||[]).filter(q=>new Date(q.t).getTime()+15*60e3>Date.now()).slice(0,8);
+  if(Q.length<4){$("ncBars").parentElement.classList.add("hidden");return;}
+  $("ncBars").parentElement.classList.remove("hidden");
+  const rate=q=>q.p*4, cls=r=>RainFeel.classify(r);
+  const max=Math.max(0.15,...Q.map(rate));
+  $("ncBars").innerHTML=Q.map(q=>{const r=rate(q),k=ci(cls(r));return `<div class="nc-bar" style="height:${Math.max(8,Math.sqrt(r/max)*92)}px;background:var(--l${Math.max(1,k)})" title="${esc(PLAIN[cls(r)])}"></div>`;}).join("");
+  $("ncLbls").innerHTML=Q.map((q,i)=>`<span>${i===0?"Now":clock(q.t).replace(/ (AM|PM)$/,"")}</span>`).join("");
+  const wet=Q.map(q=>rate(q)>=0.01);
+  let t;
+  if(wet.every(x=>!x)) t="Dry for the next two hours.";
+  else if(wet.every(x=>x)){const pk=Q.reduce((m,q,i)=>rate(q)>rate(Q[m])?i:m,0);t=`Rain the whole time, heaviest around ${clock(Q[pk].t)}.`;}
+  else if(wet[0]){const s=wet.indexOf(false);t=`Raining now, easing off around ${clock(Q[s].t)}.`;}
+  else{const s=wet.indexOf(true);t=`Dry now. Rain starts around ${clock(Q[s].t)}.`;}
+  $("ncText").textContent=t;
+}
+const PLAIN_ALERT={
+ "Wind Advisory":"Strong gusts could bring down branches and knock out power. Take care near trees.",
+ "High Wind Warning":"Damaging winds are expected. Stay indoors if you can and away from trees.",
+ "Coastal Flood Warning":"Streets and parks right by the water may flood around high tide.",
+ "Coastal Flood Advisory":"Minor flooding is possible right along the water around high tide.",
+ "Flood Warning":"Flooding is happening or about to. Don't walk or drive through flooded streets.",
+ "Flash Flood Warning":"Flash flooding is happening now. Move to higher ground and avoid flooded roads.",
+ "Flood Watch":"Heavy rain could cause flooding. Avoid basements and low roads if water rises.",
+ "Flood Advisory":"Expect ponding on streets and in low spots.",
+ "Severe Thunderstorm Warning":"A dangerous storm is nearby. Go indoors now.",
+ "Severe Thunderstorm Watch":"Strong storms could form later. Keep an eye on the sky.",
+ "Tornado Warning":"Go to a basement or an inside room without windows now.",
+ "Heat Advisory":"It will be dangerously hot. Drink water and stay somewhere cool.",
+ "Excessive Heat Warning":"Extreme heat. Stay in air conditioning and check on neighbors.",
+ "Winter Storm Warning":"Heavy snow or ice. Avoid travel if you can.",
+ "Winter Weather Advisory":"Snow or ice could make sidewalks and roads slippery.",
+ "Wind Chill Advisory":"Very cold wind. Cover skin when you go out.",
+ "Dense Fog Advisory":"Thick fog. Drivers can't see far, so take care crossing streets.",
+ "High Surf Advisory":"Big waves at the beach. Stay off the sand and out of the water.",
+ "Rip Current Statement":"Dangerous currents at the beach. Stay out of the water.",
+ "Air Quality Alert":"The air is unhealthy. Limit time outdoors."
+};
+function renderAlerts(){
+  const now=Date.now(), al=(wx.alerts||[]).filter(x=>!x.ends||new Date(x.ends).getTime()>now);
+  const seen=new Set();
+  $("alerts").innerHTML=al.filter(x=>!seen.has(x.event)&&seen.add(x.event)).map(x=>{
+    const txt=PLAIN_ALERT[x.event]||(x.description.split(/\n\n|\* /).find(s=>s.trim().length>30)||x.headline||"").replace(/\s+/g," ").trim().slice(0,220);
+    const until=x.ends?` until ${F("full").format(new Date(x.ends))}`:"";
+    return `<div class="alert" role="note"><svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true"><path d="M14 3 L26 24 H2 Z" fill="var(--warn-edge)"/><rect x="12.8" y="10" width="2.4" height="8" rx="1" fill="#fff"/><circle cx="14" cy="21" r="1.4" fill="#fff"/></svg><div><b>${esc(x.event)}${esc(until)}</b><span>${esc(txt)}</span></div></div>`;
+  }).join("");
+}
+function bestIndex(){
+  let bi=0,bs=Infinity;
+  rows.forEach((h,i)=>{const d=new Date(h.t), p=F("hour").formatToParts(d), hr=+p.find(x=>x.type==="hour").value, pm=(p.find(x=>x.type==="dayPeriod")||{}).value==="PM";
+    const h24=(hr%12)+(pm?12:0); if(h24<7||h24>=21) return;
+    const s=wetness("none",A[i],h,15).score*(h.pop/100)+((h.gust||0)>=35?.05:0);
+    if(s<bs){bs=s;bi=i;}});
+  return bi;
+}
+function renderHours(){
+  const best=bestIndex(); let lastDay=dow(rows[0].t);
+  $("hours").innerHTML=rows.map((h,i)=>{
+    const a=A[i], w=wetness("none",a,h,60), d=dow(h.t);
+    let dl=i===0?"Now":(d!==lastDay?(lastDay=d,d):""); if(i===best&&i!==0) dl="Best time";
+    const k=ci(a.intensityClass);
+    const icon=k===0?`<svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="6" fill="var(--damp)"/></svg>`
+      :`<svg width="30" height="22" viewBox="0 0 30 22">${Array.from({length:Math.min(3,Math.ceil(k/2))},(_,j)=>`<path transform="translate(${j*9+2} 2)" d="M4 0 C1.5 4 0 6 0 8 a4 4 0 0 0 8 0 c0-2-1.5-4-4-8z" fill="var(--lt${k})"/>`).join("")}</svg>`;
+    return `<button class="hour${i===best?" best":""}" data-i="${i}" aria-pressed="${i===sel}" aria-label="${esc(hl(h.t))} ${esc(d)}: ${esc(PLAIN[a.intensityClass])}, ${h.pop}% chance"><span class="dl">${esc(dl)}</span><span class="hl">${esc(hl(h.t))}</span><span class="blk" style="background:var(--l${k})">${icon}</span><span class="sm">${a.soakMinutes==null?(h.pop>=30?h.pop+"% chance":"dry"):Math.max(1,Math.round(w.soakIn))+" min"}</span></button>`;
+  }).join("");
+}
+const OUTFITS=[["none","Everyday clothes"],["umbrella","Clothes + umbrella"],["jacket","Rain jacket with hood"],["gear","Jacket, rain pants, boots"]];
+function renderOutfits(){
+  const a=A[sel], h=rows[sel];
+  $("fitQ").textContent=`After ${dur===60?"an hour":dur+" minutes"} outside ${sel===0?"right now":"at "+hl(h.t)+(dow(h.t)!==dow(rows[0].t)?" "+dow(h.t):"")}: ${PLAIN[a.intensityClass].toLowerCase()}${a.intensityClass!=="none"&&h.pop<60?" ("+h.pop+"% chance)":""}${(h.gust||0)>=35?", gusts to "+h.gust+" mph":""}`;
+  const res=OUTFITS.map(([k])=>wetness(k,a,h,dur));
+  let pick=res.findIndex(r=>r.score<.45); if(pick<0) pick=3;
+  const NM={head:"hair",torso:"top",legs:"legs",feet:"feet"}, ks=["head","torso","legs","feet"];
+  const join=x=>x.length<2?x.join(""):x.slice(0,-1).join(", ")+" and "+x[x.length-1];
+  const cap=s=>s.replace(/^./,c=>c.toUpperCase());
+  $("outfits").innerHTML=OUTFITS.map(([k,label],i)=>{
+    const r=res[i], [v,c]=VERD(r.score);
+    const soak=r.soakIn==null?"":r.soakIn>=120?"Fine for over 2 hours":`Fully soaked after ${mins(r.soakIn)}`;
+    const wetP=ks.filter(z=>r.z[z]>=.45).map(z=>NM[z]), dryP=ks.filter(z=>r.z[z]<.15).map(z=>NM[z]);
+    const one=x=>x.length===1&&(x[0]==="hair"||x[0]==="top");
+    const parts=a.soakMinutes==null?"You stay dry":wetP.length===4?"Wet from head to toe":wetP.length===0?(dryP.length===4?"You stay dry":"Just a few drops")
+      :(dryP.length?cap(join(dryP))+(one(dryP)?" stays":" stay")+" dry. ":"")+cap(join(wetP))+(one(wetP)?" gets wet":" get wet");
+    return `<div class="fit${i===pick?" pick":""}">${i===pick?'<span class="tag">Wear this</span>':'<span class="tag" style="visibility:hidden" aria-hidden="true">.</span>'}<h3>${label}</h3>${figure(k,r,a,h,i)}<div class="verdict" style="color:${c}">${v}</div><div class="meter" aria-hidden="true"><i style="width:${Math.max(3,r.score*100)}%;background:${c}"></i></div><div class="parts">${parts}</div><div class="soak">${soak}</div>${r.flip?'<div class="note">Too windy. It will flip inside out.</div>':""}</div>`;
+  }).join("");
+}
+function renderTips(){
+  const maxG=Math.max(...rows.map(h=>h.gust||0)), wettest=A.reduce((m,a,i)=>a.peakInHr>A[m].peakInHr?i:m,0);
+  const total=rows.reduce((s,h)=>s+(+h.qpf||0),0), anyRain=A.some(a=>a.intensityClass!=="none");
+  const dryStart=A.findIndex((a,i)=>i>0&&a.intensityClass==="none"&&A[i-1].intensityClass!=="none");
+  const tip=(icon,t,d)=>`<li>${icon}<div><b>${t}</b>${d}</div></li>`;
+  const drop=`<svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true"><path d="M14 3 C8 11 5 15 5 18.5 a9 9 0 0 0 18 0 c0-3.5-3-7.5-9-15.5z" fill="var(--water)"/></svg>`;
+  const sun=`<svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true"><circle cx="14" cy="14" r="6" fill="var(--damp)"/></svg>`;
+  const wind=`<svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true"><path d="M3 10 h15 a4 4 0 1 0 -4 -4 M3 16 h20 a4 4 0 1 1 -4 4 M3 22 h9" stroke="var(--ink-2)" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg>`;
+  const boot=`<svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true"><path d="M8 3 h8 v14 l7 3 a3 3 0 0 1 2 3 v2 H6 v-20z" fill="var(--boot)"/></svg>`;
+  const bulb=`<svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true"><rect x="7" y="4" width="14" height="20" rx="3" fill="none" stroke="var(--ink-2)" stroke-width="2.2"/><rect x="10" y="12" width="8" height="9" rx="1" fill="var(--dry)"/><rect x="11" y="1.5" width="6" height="3" rx="1" fill="var(--ink-2)"/></svg>`;
+  const out=[];
+  if(anyRain) out.push(tip(drop,`Heaviest around ${hl(rows[wettest].t)}${dow(rows[wettest].t)!==dow(rows[0].t)?" "+dow(rows[wettest].t):""}`,`${total>=0.1?"About "+total.toFixed(1)+" inches of rain in the next day. ":""}Plan errands away from that time if you can.`));
+  else out.push(tip(sun,"No rain in the next day","Leave the umbrella at home."));
+  if(maxG>=35) out.push(tip(wind,`Gusts up to ${maxG} mph`,`Skip the umbrella and walk away from big trees. Branches can come down in gusts this strong.`));
+  if(total>=0.5) out.push(tip(boot,`Expect deep puddles`,`Curb corners and crosswalks will pool. Waterproof boots keep your feet dry; sneakers soak through in minutes.`));
+  if(maxG>=40) out.push(tip(bulb,`Charge your phone`,`Wind this strong can knock out power. Keep a flashlight handy.`));
+  else if(dryStart>0) out.push(tip(bulb,`Dry spell from ${hl(rows[dryStart].t)}`,`That's the easiest time to be outside.`));
+  $("tips").innerHTML=out.join("");
+}
+function renderFoot(){
+  let status;
+  if(loading) status=`<span class="spinner"></span> Getting the latest forecast`;
+  else if(wx&&loc&&wx.lat===loc.lat){
+    const m=Math.round((Date.now()-wx.fetchedAt)/60000), stale=m>30;
+    status=`<span class="live"><span class="dot ${stale||lastErr?"stale":"on"}"></span>Updated ${m<1?"just now":m<60?m+" min ago":Math.floor(m/60)+" h ago"}${lastErr?" · can't connect right now, showing the last forecast":""} · updates every 10 minutes</span> <button class="linkbtn" id="refBtn">Update now</button>`;
+  } else status=lastErr?"Can't connect right now.":"";
+  $("foot").innerHTML=`<div>${status}</div><span>Forecast from Open-Meteo (NOAA high-resolution models) for this exact spot. Alerts from the National Weather Service. “Soaked” means a cotton shirt and jeans feel wet through; wind that blows rain sideways makes it faster.</span>`;
+  const b=$("refBtn"); if(b) b.onclick=()=>refresh(true);
+}
+
+/* ---------- events ---------- */
+$("hours").addEventListener("click",e=>{const b=e.target.closest(".hour");if(!b)return;sel=+b.dataset.i;document.querySelectorAll(".hour").forEach(x=>x.setAttribute("aria-pressed",String(+x.dataset.i===sel)));renderOutfits();});
+$("durs").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;dur=+b.dataset.m;document.querySelectorAll("#durs button").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));renderOutfits();});
+document.addEventListener("visibilitychange",()=>{if(!document.hidden){render();refresh(false);}});
+window.addEventListener("online",()=>refresh(true));
+setInterval(()=>{if(!document.hidden) refresh(true);},10*60e3);
+setInterval(()=>{if(!document.hidden&&!loading) render();},60e3);
+
+if(loc){$("main").classList.remove("hidden");}
+render(); refresh(false);
+})();
+</script>
+</body>
+</html>

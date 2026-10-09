@@ -167,6 +167,31 @@ body{margin:0}
 .spinner{display:inline-block;width:18px;height:18px;border-radius:50%;border:3px solid var(--rule);border-top-color:var(--accent);animation:spin 1s linear infinite;vertical-align:-3px}
 @keyframes spin{to{transform:rotate(360deg)}}
 @media (prefers-reduced-motion:reduce){.spinner{animation:none}}
+.hero:has(#clock.hidden){grid-template-columns:1fr}
+.wear{display:grid;grid-template-columns:190px minmax(0,1fr);gap:22px;align-items:center}
+.wear-fig{width:100%;max-width:190px;height:auto;justify-self:center}
+.wear-now{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 16px}
+.wear-now .big{font-family:var(--display);font-weight:800;font-size:clamp(52px,9vw,72px);line-height:1;font-variant-numeric:tabular-nums}
+.wear-now .fl{font-size:18px;color:var(--ink-2)}
+.wear-now .fl b{color:var(--ink)}
+.wear h3{font-size:clamp(22px,3.4vw,28px);font-weight:800;margin-top:10px}
+.kit{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-direction:column;gap:8px}
+.kit li{display:flex;gap:10px;align-items:flex-start;font-size:18px}
+.kit li::before{content:"";flex:none;width:12px;height:12px;border-radius:50%;background:var(--dry);margin-top:8px}
+.kit li.extra::before{background:var(--warn-edge)}
+.hilo{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:17px;color:var(--ink-2)}
+.hilo b{color:var(--ink);font-size:19px}
+.temps{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:6px}
+.tt{background:var(--surface-2);border-radius:14px;padding:10px 4px;display:flex;flex-direction:column;align-items:center;gap:4px}
+.tt .tm{font-size:14.5px;color:var(--ink-2);font-weight:700;white-space:nowrap}
+.tt .tv{font-family:var(--display);font-weight:800;font-size:24px;font-variant-numeric:tabular-nums}
+.tt .td{font-size:12.5px;color:var(--ink-3);min-height:16px;white-space:nowrap}
+.tt.cold .tv{color:var(--wet)} .tt.hot .tv{color:var(--warn)}
+@media (max-width:760px){
+  .wear{grid-template-columns:1fr}
+  .wear-fig{max-width:160px}
+  .temps{grid-template-columns:repeat(4,minmax(0,1fr))}
+}
 </style>
 </head>
 <body>
@@ -206,6 +231,19 @@ body{margin:0}
     </section>
 
     <div id="alerts" style="display:flex;flex-direction:column;gap:10px"></div>
+
+    <section class="panel" id="wearPanel" aria-label="Temperature and what to wear">
+      <div class="wear">
+        <svg class="wear-fig" id="wearFig" viewBox="0 0 160 230" role="img" aria-label=""></svg>
+        <div>
+          <div class="wear-now"><span class="big" id="tNow">–</span><span class="fl" id="tFeel"></span></div>
+          <h3 id="wearTitle">What to wear</h3>
+          <ul class="kit" id="kit"></ul>
+        </div>
+      </div>
+      <div class="hilo" id="hilo"></div>
+      <div class="temps" id="temps" aria-label="Temperature over the next day"></div>
+    </section>
 
     <section class="panel nowcast" aria-label="Next two hours">
       <div>
@@ -690,13 +728,13 @@ async function getJSON(url,ms){
 }
 async function fetchForecast(lat,lon){
   const q=new URLSearchParams({latitude:lat.toFixed(4),longitude:lon.toFixed(4),
-    hourly:"temperature_2m,relative_humidity_2m,precipitation_probability,precipitation,weather_code,wind_speed_10m,wind_gusts_10m,wind_direction_10m",
+    hourly:"temperature_2m,apparent_temperature,is_day,cloud_cover,relative_humidity_2m,precipitation_probability,precipitation,weather_code,wind_speed_10m,wind_gusts_10m,wind_direction_10m",
     minutely_15:"precipitation,weather_code",current:"temperature_2m,precipitation,weather_code,wind_speed_10m,wind_gusts_10m",
     forecast_hours:"30",past_hours:"1",forecast_minutely_15:"8",past_minutely_15:"0",
     temperature_unit:"fahrenheit",wind_speed_unit:"mph",precipitation_unit:"inch",timezone:"auto"});
   const d=await getJSON("https://api.open-meteo.com/v1/forecast?"+q);
   const off=offStr(d.utc_offset_seconds||0), H=d.hourly;
-  const hours=H.time.map((t,i)=>({t:t+":00"+off,temp:Math.round(H.temperature_2m[i]),rh:H.relative_humidity_2m[i],
+  const hours=H.time.map((t,i)=>({t:t+":00"+off,temp:Math.round(H.temperature_2m[i]),feels:H.apparent_temperature?Math.round(H.apparent_temperature[i]):null,day:H.is_day?H.is_day[i]===1:null,cloud:H.cloud_cover?H.cloud_cover[i]:null,rh:H.relative_humidity_2m[i],
     pop:H.precipitation_probability[i]==null?0:H.precipitation_probability[i],qpf:H.precipitation[i]||0,code:H.weather_code[i],
     cond:THUNDER.has(H.weather_code[i])?"T-storms/Rain":"Rain",snow:SNOW.has(H.weather_code[i]),
     wind:Math.round(H.wind_speed_10m[i]||0),gust:Math.round(H.wind_gusts_10m[i]||H.wind_speed_10m[i]||0),dir:H.wind_direction_10m[i]||0}));
@@ -781,7 +819,7 @@ function render(){
   if(!rows.length){$("heroTitle").textContent="Forecast is out of date";$("heroText").textContent="Connect to the internet to get a fresh one.";renderFoot();return;}
   A=rows.map(RainFeel.analyzeHour);
   if(sel>=rows.length) sel=0;
-  renderHero(); renderNowcast(); renderAlerts(); renderHours(); renderOutfits(); renderTips(); renderFoot();
+  renderHero(); renderAlerts(); renderWear(); renderNowcast(); renderHours(); renderOutfits(); renderTips(); renderFoot();
 }
 function renderHero(){
   const a=A[0], h=rows[0], w=wetness("none",a,h,60), windy=(h.gust||0)>=35;
@@ -789,12 +827,114 @@ function renderHero(){
   const q0=(wx.quarter||[]).find(q=>new Date(q.t).getTime()+15*60e3>Date.now());
   const dryMoment=q0&&q0.p*4<0.005&&a.intensityClass!=="none";
   const snow=h.snow&&a.intensityClass!=="none";
-  $("heroTitle").textContent=a.intensityClass==="none"?(windy?"Dry, but very windy":"No rain right now"):(snow?"Snow":PLAIN[a.intensityClass])+(windy?" and strong wind":"")+(a.thunder?", maybe thunder":"");
+  const nextWet=A.findIndex((x,i)=>x.intensityClass!=="none"&&rows[i].pop>=40);
+  $("heroTitle").textContent=a.intensityClass==="none"?(nextWet<0?"No rain in the next day":"Dry for now")+(windy?", but very windy":""):(snow?"Snow":PLAIN[a.intensityClass])+(windy?" and strong wind":"")+(a.thunder?", maybe thunder":"");
   $("heroText").innerHTML=a.soakMinutes==null
-    ?`You can go out in everyday clothes and stay dry.`+(windy?` Gusts up to ${h.gust} mph, so hold on to your hat.`:"")
+    ?(nextWet<0?`Leave the umbrella at home.`:`Rain likely from around ${hl(rows[nextWet].t)}${dow(rows[nextWet].t)!==dow(rows[0].t)?" "+dow(rows[nextWet].t):""}. Bring a hooded jacket if you'll be out then.`)+(windy?` Gusts up to ${h.gust} mph, so hold on to your hat.`:"")
     :snow?`Snow is falling or likely. Dress warmly and watch your footing.`
     :(dryMoment?`It's dry this minute, but rain is due within the hour. Once it starts, `:`In`)+`${dryMoment?"in":""} everyday clothes you'd be <b>soaked in ${mins(w.soakIn)}</b>.`+(windy?` Gusts up to ${h.gust} mph will turn an umbrella inside out, so a hooded rain jacket is the better bet.`:` An umbrella helps a lot.`);
-  $("clock").innerHTML=clockSvg(snow?null:w.soakIn); $("clock").setAttribute("aria-label",a.soakMinutes==null?"Dry":"Soaked in "+mins(w.soakIn)+" in everyday clothes");
+  const dryNow=a.soakMinutes==null&&!snow; $("clock").classList.toggle("hidden",dryNow);
+  $("clock").innerHTML=dryNow?"":clockSvg(snow?null:w.soakIn); $("clock").setAttribute("aria-label",a.soakMinutes==null?"Dry":"Soaked in "+mins(w.soakIn)+" in everyday clothes");
+}
+function feelsOf(h){return h.feels==null?h.temp:h.feels;}
+function tempRing(h){
+  const f=feelsOf(h), frac=Math.max(.04,Math.min(1,(f-10)/90)), R=60, C=2*Math.PI*R;
+  const col=f<45?"var(--wet)":f>=85?"var(--warn-edge)":"var(--dry)";
+  return `<circle cx="75" cy="75" r="${R}" fill="none" stroke="var(--rule)" stroke-width="14"/><circle cx="75" cy="75" r="${R}" fill="none" stroke="${col}" stroke-width="14" stroke-linecap="round" stroke-dasharray="${frac*C} ${C}" transform="rotate(-90 75 75)"/><text x="78" y="88" text-anchor="middle" font-size="46" font-weight="800" fill="var(--ink)">${h.temp}°</text>`;
+}
+/* Clothing levels. Thresholds use "feels like" and run about 5°F warmer than
+   typical advice, because people over 65 tend to feel the cold more and are
+   more affected by heat. */
+const LEVELS=[
+  {max:-99,name:"Very cold",title:"Bundle up: heavy winter coat",kit:["Your warmest winter coat","Warm hat that covers your ears","Gloves or mittens and a scarf","Warm socks and boots with good grip"]},
+  {max:40,name:"Cold",title:"Winter coat, hat and gloves",kit:["Winter coat","Hat and gloves","A scarf","Long pants and closed shoes"]},
+  {max:50,name:"Chilly",title:"A warm jacket",kit:["Warm jacket or light coat","Sweater underneath","Long pants and closed shoes"]},
+  {max:60,name:"Cool",title:"A sweater and a light jacket",kit:["Sweater or fleece","Light jacket on top","Long pants"]},
+  {max:70,name:"Mild",title:"Long sleeves, plus a sweater to carry",kit:["Long-sleeve top","Light sweater or cardigan to carry","Comfortable walking shoes"]},
+  {max:80,name:"Warm",title:"Short sleeves and a sun hat",kit:["Short sleeves, light fabrics","Sun hat and sunglasses","Comfortable walking shoes"]},
+  {max:999,name:"Hot",title:"Dress light and stay cool",kit:["Loose, light-colored clothes","Wide-brim sun hat","A bottle of water","Plan walks for morning or evening"]}
+];
+function levelFor(f){ // f = feels-like °F
+  if(f<30) return 0; if(f<40) return 1; if(f<50) return 2; if(f<60) return 3; if(f<70) return 4; if(f<82) return 5; return 6;
+}
+function wearPlan(){
+  const now=rows[0], f0=feelsOf(now), win=rows.slice(0,10);
+  const fs=win.map(feelsOf), lo=Math.min(...fs), hi=Math.max(...fs);
+  const lvl=levelFor(f0), L=LEVELS[lvl];
+  const kit=L.kit.map(t=>({t}));
+  const rainSoon=A.slice(0,6).some((a,i)=>a.intensityClass!=="none"&&rows[i].pop>=40);
+  const windy=win.some(h=>(h.wind||0)>=18||(h.gust||0)>=30);
+  const loIdx=fs.indexOf(lo), hiIdx=fs.indexOf(hi);
+  if(rainSoon) kit.push({t:"Hooded rain jacket and shoes with good grip (wet sidewalks are slippery)",x:1});
+  if(lvl<=3&&windy) kit.push({t:"Something windproof on top, the wind makes it feel colder",x:1});
+  if(lo<=f0-8&&loIdx>0&&levelFor(lo)<lvl) kit.push({t:`Bring a warmer layer: it drops to ${win[loIdx].temp}° by ${hl(win[loIdx].t)}`,x:1});
+  else if(hi>=f0+10&&hiIdx>0) kit.push({t:`Dress in layers: it warms to ${win[hiIdx].temp}° by ${hl(win[hiIdx].t)}`,x:1});
+  if(lvl>=5&&!rainSoon&&now.day!==false&&(now.cloud==null||now.cloud<60)) kit.push({t:"Sunscreen on your face and hands",x:1});
+  if(lvl<=1) kit.push({t:"Watch for icy patches on sidewalks and steps",x:1});
+  return {lvl,L,kit,rainSoon,windy};
+}
+function skyIcon(h,a){
+  if(a&&a.intensityClass!=="none"&&h.pop>=40) return `<svg width="26" height="22" viewBox="0 0 26 22" aria-hidden="true"><path d="M7 13 a5 5 0 0 1 1-9.9 a6 6 0 0 1 11 2 a4 4 0 0 1 0 7.9z" fill="var(--rain)"/><path d="M9 16 l-1.5 4 M14 16 l-1.5 4 M19 16 l-1.5 4" stroke="var(--water)" stroke-width="2" stroke-linecap="round"/></svg>`;
+  if(h.day===false) return `<svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><path d="M14 3 a8 8 0 1 0 5 13 a7 7 0 0 1 -5 -13z" fill="var(--ink-3)"/></svg>`;
+  if(h.cloud!=null&&h.cloud>=70) return `<svg width="26" height="22" viewBox="0 0 26 22" aria-hidden="true"><path d="M7 17 a5 5 0 0 1 1-9.9 a6 6 0 0 1 11 2 a4 4 0 0 1 0 7.9z" fill="var(--ink-3)"/></svg>`;
+  if(h.cloud!=null&&h.cloud>=30) return `<svg width="26" height="22" viewBox="0 0 26 22" aria-hidden="true"><circle cx="9" cy="8" r="5" fill="var(--damp)"/><path d="M9 19 a4.5 4.5 0 0 1 1-8.8 a5.5 5.5 0 0 1 10 1.8 a3.6 3.6 0 0 1 0 7z" fill="var(--ink-3)"/></svg>`;
+  return `<svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><circle cx="11" cy="11" r="6" fill="var(--damp)"/></svg>`;
+}
+function wearSvg(plan){
+  const v=plan.lvl, rain=plan.rainSoon;
+  const shortSl=v>=5, shorts=v>=6, coat=v<=2, jacket=v===3, sweater=v===4;
+  const top=rain&&v<=4?"var(--slicker)":coat?"#7A3E33":jacket?"#3F6E5A":sweater?"#8A6FB0":"#E07A5F";
+  const legC=shorts?"#C9B48A":"var(--jeans)";
+  let s=`<rect x="0" y="0" width="160" height="230" rx="16" fill="var(--surface-2)"/>`;
+  if(v>=5&&!rain) s+=`<circle cx="134" cy="26" r="13" fill="var(--damp)" opacity=".85"/>`;
+  // legs
+  if(shorts) s+=`<path d="M62 132 L60 166 L76 166 L79 142 L81 142 L84 166 L100 166 L98 132 Z" fill="${legC}"/><rect x="62" y="166" width="12" height="30" fill="var(--skin)"/><rect x="86" y="166" width="12" height="30" fill="var(--skin)"/>`;
+  else s+=`<path d="M62 132 L60 196 L76 196 L79 142 L81 142 L84 196 L100 196 L98 132 Z" fill="${legC}"/>`;
+  // shoes / boots
+  s+=v<=1||rain?`<path d="M57 186 h21 v18 h-24 a3 3 0 0 1 -3 -3 v-3 a12 12 0 0 1 6 -12z M82 186 h21 v12 a12 12 0 0 1 6 3 v0 a3 3 0 0 1 -3 3 h-24z" fill="var(--shoe)"/>`
+               :`<path d="M58 196 h18 v8 h-22 a4 4 0 0 1 4 -8z M84 196 h18 a4 4 0 0 1 4 8 h-22z" fill="var(--shoe)"/>`;
+  // torso (coat runs longer)
+  const hem=coat?168:134;
+  s+=`<path d="M60 76 Q80 70 100 76 L${coat?110:106} ${hem} L${coat?50:54} ${hem} Z" fill="${top}"/>`;
+  // arms: short sleeves show skin
+  if(shortSl) s+=`<path d="M60 78 L52 98 L59 101 L64 90 Z M100 78 L108 98 L101 101 L96 90 Z" fill="${top}"/><path d="M53 99 L46 118 L52 121 L59 102 Z M107 99 L114 118 L108 121 L101 102 Z" fill="var(--skin)"/>`;
+  else s+=`<path d="M60 78 L46 118 L52 121 L64 94 Z M100 78 L114 118 L108 121 L96 94 Z" fill="${top}"/>`;
+  if(coat||jacket||rain) s+=`<line x1="80" y1="78" x2="80" y2="${hem-2}" stroke="rgba(0,0,0,.35)" stroke-width="1.5"/>`;
+  if(sweater&&!rain) s+=`<path d="M70 75 Q80 84 90 75" stroke="rgba(255,255,255,.55)" stroke-width="2" fill="none"/>`;
+  // hands / gloves
+  const hand=v<=1?"#3B4A5A":"var(--skin)";
+  s+=`<circle cx="49" cy="122" r="5.5" fill="${hand}"/><circle cx="111" cy="122" r="5.5" fill="${hand}"/>`;
+  // head
+  s+=`<rect x="75" y="64" width="10" height="10" fill="var(--skin)"/><circle cx="80" cy="52" r="16" fill="var(--skin)"/>`;
+  s+=`<path d="M64 50 a16 16 0 0 1 32 0 q-6 -6 -16 -5 q-10 -1 -16 5z" fill="#B9B4AE"/>`; // grey hair
+  s+=`<circle cx="74" cy="54" r="1.8" fill="var(--ink)"/><circle cx="86" cy="54" r="1.8" fill="var(--ink)"/><path d="M74 60 q6 5 12 0" stroke="var(--ink)" stroke-width="1.8" fill="none" stroke-linecap="round"/>`;
+  // scarf
+  if(v<=1||(v===2&&plan.windy)) s+=`<path d="M68 68 Q80 76 92 68 L93 74 Q80 82 67 74 Z" fill="#C0392B"/><rect x="84" y="73" width="7" height="22" rx="2" fill="#C0392B"/>`;
+  // hats
+  if(rain&&v<=4) s+=`<path d="M61 56 a19 21 0 0 1 38 0 L98 70 Q80 62 62 70 Z" fill="var(--slicker)"/>`;
+  else if(v<=1) s+=`<path d="M63 47 a17 17 0 0 1 34 0 z" fill="#2F5D8A"/><rect x="62" y="44" width="36" height="6" rx="3" fill="#24496E"/><circle cx="80" cy="29" r="4" fill="#24496E"/>`;
+  else if(v>=5) s+=`<ellipse cx="80" cy="41" rx="28" ry="5" fill="#D8B66A"/><path d="M66 41 a14 11 0 0 1 28 0z" fill="#D8B66A"/><rect x="66" y="37" width="28" height="3" fill="#A9853F"/>`;
+  // water bottle when hot
+  if(v>=6) s+=`<rect x="108" y="108" width="8" height="18" rx="2" fill="var(--water)"/>`;
+  return s;
+}
+function renderWear(){
+  const now=rows[0], f0=feelsOf(now), plan=wearPlan();
+  $("tNow").textContent=now.temp+"°";
+  $("tFeel").innerHTML=Math.abs(f0-now.temp)>=3?`Feels like <b>${f0}°</b>`:`${esc(LEVELS[plan.lvl].name)} out`;
+  $("wearTitle").textContent="What to wear: "+plan.L.title.charAt(0).toLowerCase()+plan.L.title.slice(1);
+  $("kit").innerHTML=plan.kit.map(k=>`<li class="${k.x?"extra":""}">${esc(k.t)}</li>`).join("");
+  $("wearFig").innerHTML=wearSvg(plan); $("wearFig").setAttribute("aria-label","A person dressed for "+LEVELS[plan.lvl].name.toLowerCase()+" weather");
+  // high / low over the next day
+  const ts=rows.map(h=>h.temp), hi=Math.max(...ts), lo=Math.min(...ts), hiI=ts.indexOf(hi), loI=ts.indexOf(lo);
+  const when=t=>hl(t)+(dow(t)!==dow(rows[0].t)?" "+dow(t):"");
+  $("hilo").innerHTML=`<span>High <b>${hi}°</b> around ${esc(when(rows[hiI].t))}</span><span>Low <b>${lo}°</b> around ${esc(when(rows[loI].t))}</span>`;
+  // every 3 hours
+  const pts=[]; for(let i=0;i<rows.length&&pts.length<8;i+=3) pts.push(i);
+  let lastDay=dow(rows[0].t);
+  $("temps").innerHTML=pts.map(i=>{const h=rows[i], d=dow(h.t), f=feelsOf(h);
+    let dl=""; if(i===0) dl="Now"; else if(d!==lastDay){dl=d;lastDay=d;}
+    return `<div class="tt${f<45?" cold":f>=85?" hot":""}"><span class="tm">${esc(i===0?"Now":hl(h.t))}</span>${skyIcon(h,A[i])}<span class="tv">${h.temp}°</span><span class="td">${esc(i===0?"":dl)}</span></div>`;}).join("");
 }
 function renderNowcast(){
   const Q=(wx.quarter||[]).filter(q=>new Date(q.t).getTime()+15*60e3>Date.now()).slice(0,8);

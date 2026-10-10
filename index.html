@@ -185,7 +185,14 @@ body{margin:0}
 .tt{background:var(--surface-2);border-radius:14px;padding:10px 4px;display:flex;flex-direction:column;align-items:center;gap:4px}
 .tt .tm{font-size:14.5px;color:var(--ink-2);font-weight:700;white-space:nowrap}
 .tt .tv{font-family:var(--display);font-weight:800;font-size:24px;font-variant-numeric:tabular-nums}
-.tt .td{font-size:12.5px;color:var(--ink-3);min-height:16px;white-space:nowrap}
+.tt .td{font-size:12.5px;color:var(--ink-3);min-height:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.tt .tr{display:flex;align-items:center;gap:3px;font-size:16px;font-weight:700;color:var(--water);font-variant-numeric:tabular-nums}
+.tt .tr.dry{color:var(--ink-3);font-weight:400}
+.tt.wet{background:color-mix(in srgb,var(--water) 12%,var(--surface-2))}
+.day{display:flex;flex-direction:column;gap:8px}
+.day-h{display:flex;justify-content:space-between;align-items:baseline;gap:10px;border-bottom:1.5px solid var(--rule);padding-bottom:6px}
+.day-h b{font-family:var(--display);font-size:21px;font-weight:800}
+.day-h span{color:var(--ink-2);font-size:16px}
 .tt.cold .tv{color:var(--wet)} .tt.hot .tv{color:var(--warn)}
 @media (max-width:760px){
   .wear{grid-template-columns:1fr}
@@ -242,7 +249,14 @@ body{margin:0}
         </div>
       </div>
       <div class="hilo" id="hilo"></div>
-      <div class="temps" id="temps" aria-label="Temperature over the next day"></div>
+    </section>
+
+    <section class="panel" aria-label="The next two days">
+      <div>
+        <h2>The next 2 days</h2>
+        <p class="sub">Temperature and chance of rain, every 3 hours.</p>
+      </div>
+      <div id="days" style="display:flex;flex-direction:column;gap:16px"></div>
     </section>
 
     <section class="panel nowcast" aria-label="Next two hours">
@@ -730,7 +744,7 @@ async function fetchForecast(lat,lon){
   const q=new URLSearchParams({latitude:lat.toFixed(4),longitude:lon.toFixed(4),
     hourly:"temperature_2m,apparent_temperature,is_day,cloud_cover,relative_humidity_2m,precipitation_probability,precipitation,weather_code,wind_speed_10m,wind_gusts_10m,wind_direction_10m",
     minutely_15:"precipitation,weather_code",current:"temperature_2m,precipitation,weather_code,wind_speed_10m,wind_gusts_10m",
-    forecast_hours:"30",past_hours:"1",forecast_minutely_15:"8",past_minutely_15:"0",
+    forecast_hours:"54",past_hours:"1",forecast_minutely_15:"8",past_minutely_15:"0",
     temperature_unit:"fahrenheit",wind_speed_unit:"mph",precipitation_unit:"inch",timezone:"auto"});
   const d=await getJSON("https://api.open-meteo.com/v1/forecast?"+q);
   const off=offStr(d.utc_offset_seconds||0), H=d.hourly;
@@ -815,7 +829,7 @@ function render(){
     $("clock").innerHTML=""; renderFoot(); return;
   }
   const now=Date.now();
-  rows=wx.hours.filter(h=>new Date(h.t).getTime()+3600e3>now).slice(0,24);
+  rows=wx.hours.filter(h=>new Date(h.t).getTime()+3600e3>now).slice(0,48);
   if(!rows.length){$("heroTitle").textContent="Forecast is out of date";$("heroText").textContent="Connect to the internet to get a fresh one.";renderFoot();return;}
   A=rows.map(RainFeel.analyzeHour);
   if(sel>=rows.length) sel=0;
@@ -828,7 +842,7 @@ function renderHero(){
   const dryMoment=q0&&q0.p*4<0.005&&a.intensityClass!=="none";
   const snow=h.snow&&a.intensityClass!=="none";
   const nextWet=A.findIndex((x,i)=>x.intensityClass!=="none"&&rows[i].pop>=40);
-  $("heroTitle").textContent=a.intensityClass==="none"?(nextWet<0?"No rain in the next day":"Dry for now")+(windy?", but very windy":""):(snow?"Snow":PLAIN[a.intensityClass])+(windy?" and strong wind":"")+(a.thunder?", maybe thunder":"");
+  $("heroTitle").textContent=a.intensityClass==="none"?(nextWet<0?"No rain in the next 2 days":"Dry for now")+(windy?", but very windy":""):(snow?"Snow":PLAIN[a.intensityClass])+(windy?" and strong wind":"")+(a.thunder?", maybe thunder":"");
   $("heroText").innerHTML=a.soakMinutes==null
     ?(nextWet<0?`Leave the umbrella at home.`:`Rain likely from around ${hl(rows[nextWet].t)}${dow(rows[nextWet].t)!==dow(rows[0].t)?" "+dow(rows[nextWet].t):""}. Bring a hooded jacket if you'll be out then.`)+(windy?` Gusts up to ${h.gust} mph, so hold on to your hat.`:"")
     :snow?`Snow is falling or likely. Dress warmly and watch your footing.`
@@ -859,7 +873,8 @@ function levelFor(f){ // f = feels-like °F
 }
 function wearPlan(){
   const now=rows[0], f0=feelsOf(now), win=rows.slice(0,10);
-  const fs=win.map(feelsOf), lo=Math.min(...fs), hi=Math.max(...fs);
+  const awake=h=>{const x=+F("hour").formatToParts(new Date(h.t)).find(q=>q.type==="hour").value, pm=(F("hour").formatToParts(new Date(h.t)).find(q=>q.type==="dayPeriod")||{}).value==="PM"; const h24=(x%12)+(pm?12:0); return h24>=6&&h24<=23;};
+  const fs=win.map(h=>awake(h)||h===now?feelsOf(h):f0), lo=Math.min(...fs), hi=Math.max(...fs);
   const lvl=levelFor(f0), L=LEVELS[lvl];
   const kit=L.kit.map(t=>({t}));
   const rainSoon=A.slice(0,6).some((a,i)=>a.intensityClass!=="none"&&rows[i].pop>=40);
@@ -926,15 +941,28 @@ function renderWear(){
   $("kit").innerHTML=plan.kit.map(k=>`<li class="${k.x?"extra":""}">${esc(k.t)}</li>`).join("");
   $("wearFig").innerHTML=wearSvg(plan); $("wearFig").setAttribute("aria-label","A person dressed for "+LEVELS[plan.lvl].name.toLowerCase()+" weather");
   // high / low over the next day
-  const ts=rows.map(h=>h.temp), hi=Math.max(...ts), lo=Math.min(...ts), hiI=ts.indexOf(hi), loI=ts.indexOf(lo);
+  const ts=rows.slice(0,24).map(h=>h.temp), hi=Math.max(...ts), lo=Math.min(...ts), hiI=ts.indexOf(hi), loI=ts.indexOf(lo);
   const when=t=>hl(t)+(dow(t)!==dow(rows[0].t)?" "+dow(t):"");
-  $("hilo").innerHTML=`<span>High <b>${hi}°</b> around ${esc(when(rows[hiI].t))}</span><span>Low <b>${lo}°</b> around ${esc(when(rows[loI].t))}</span>`;
-  // every 3 hours
-  const pts=[]; for(let i=0;i<rows.length&&pts.length<8;i+=3) pts.push(i);
-  let lastDay=dow(rows[0].t);
-  $("temps").innerHTML=pts.map(i=>{const h=rows[i], d=dow(h.t), f=feelsOf(h);
-    let dl=""; if(i===0) dl="Now"; else if(d!==lastDay){dl=d;lastDay=d;}
-    return `<div class="tt${f<45?" cold":f>=85?" hot":""}"><span class="tm">${esc(i===0?"Now":hl(h.t))}</span>${skyIcon(h,A[i])}<span class="tv">${h.temp}°</span><span class="td">${esc(i===0?"":dl)}</span></div>`;}).join("");
+  $("hilo").innerHTML=`<span>Next 24 hours:</span><span>High <b>${hi}°</b> around ${esc(when(rows[hiI].t))}</span><span>Low <b>${lo}°</b> around ${esc(when(rows[loI].t))}</span>`;
+  renderDays();
+}
+function renderDays(){
+  const groups=[], today=dow(rows[0].t);
+  for(let i=0;i<rows.length;i+=3){
+    const blk=rows.slice(i,i+3), ab=A.slice(i,i+3), h=rows[i], d=dow(h.t);
+    const pop=Math.max(...blk.map(x=>x.pop||0)), k=Math.max(...ab.map(a=>ci(a.intensityClass)));
+    let g=groups[groups.length-1]; if(!g||g.d!==d){g={d,items:[]};groups.push(g);}
+    g.items.push({i,h,pop,k,a:ab.reduce((m,a)=>ci(a.intensityClass)>ci(m.intensityClass)?a:m,ab[0])});
+  }
+  const drop=`<svg width="12" height="14" viewBox="0 0 12 14" aria-hidden="true"><path d="M6 1 C3 5.5 1.5 7.5 1.5 9.5 a4.5 4.5 0 0 0 9 0 c0-2-1.5-4-4.5-8.5z" fill="var(--water)"/></svg>`;
+  $("days").innerHTML=groups.map((g,gi)=>{
+    const ts=g.items.map(x=>x.h.temp);
+    const label=gi===0&&g.d===today?"Today":g.d===dow(new Date(Date.now()+86400e3))?"Tomorrow, "+g.d:g.d;
+    return `<div class="day"><div class="day-h"><b>${esc(label)}</b><span>${g.items.length>1?`${Math.min(...ts)}° to ${Math.max(...ts)}°`:""}</span></div><div class="temps">${g.items.map(x=>{
+      const f=feelsOf(x.h), rainy=x.pop>=20;
+      const rl=rainy?`<span class="tr">${drop}${x.pop}%</span><span class="td">${x.k>0?esc(PLAIN[RainFeel.SCALE[x.k].cls]):"Possible"}</span>`:`<span class="tr dry">Dry</span><span class="td"></span>`;
+      return `<div class="tt${f<45?" cold":f>=85?" hot":""}${rainy&&x.pop>=50?" wet":""}"><span class="tm">${esc(x.i===0?"Now":hl(x.h.t))}</span>${skyIcon(x.h,x.pop>=40?x.a:null)}<span class="tv">${x.h.temp}°</span>${rl}</div>`;}).join("")}</div></div>`;
+  }).join("");
 }
 function renderNowcast(){
   const Q=(wx.quarter||[]).filter(q=>new Date(q.t).getTime()+15*60e3>Date.now()).slice(0,8);
@@ -985,7 +1013,7 @@ function renderAlerts(){
 }
 function bestIndex(){
   let bi=0,bs=Infinity;
-  rows.forEach((h,i)=>{const d=new Date(h.t), p=F("hour").formatToParts(d), hr=+p.find(x=>x.type==="hour").value, pm=(p.find(x=>x.type==="dayPeriod")||{}).value==="PM";
+  rows.forEach((h,i)=>{if(i>=24) return; const d=new Date(h.t), p=F("hour").formatToParts(d), hr=+p.find(x=>x.type==="hour").value, pm=(p.find(x=>x.type==="dayPeriod")||{}).value==="PM";
     const h24=(hr%12)+(pm?12:0); if(h24<7||h24>=21) return;
     const s=wetness("none",A[i],h,15).score*(h.pop/100)+((h.gust||0)>=35?.05:0);
     if(s<bs){bs=s;bi=i;}});
@@ -1021,7 +1049,9 @@ function renderOutfits(){
     return `<div class="fit${i===pick?" pick":""}">${i===pick?'<span class="tag">Wear this</span>':'<span class="tag" style="visibility:hidden" aria-hidden="true">.</span>'}<h3>${label}</h3>${figure(k,r,a,h,i)}<div class="verdict" style="color:${c}">${v}</div><div class="meter" aria-hidden="true"><i style="width:${Math.max(3,r.score*100)}%;background:${c}"></i></div><div class="parts">${parts}</div><div class="soak">${soak}</div>${r.flip?'<div class="note">Too windy. It will flip inside out.</div>':""}</div>`;
   }).join("");
 }
+const first24=()=>rows.slice(0,24);
 function renderTips(){
+  const rows=first24(), A=rows.map(RainFeel.analyzeHour);
   const maxG=Math.max(...rows.map(h=>h.gust||0)), wettest=A.reduce((m,a,i)=>a.peakInHr>A[m].peakInHr?i:m,0);
   const total=rows.reduce((s,h)=>s+(+h.qpf||0),0), anyRain=A.some(a=>a.intensityClass!=="none");
   const dryStart=A.findIndex((a,i)=>i>0&&a.intensityClass==="none"&&A[i-1].intensityClass!=="none");

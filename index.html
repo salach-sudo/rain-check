@@ -189,6 +189,21 @@ body{margin:0}
 .tt .tr{display:flex;align-items:center;gap:3px;font-size:16px;font-weight:700;color:var(--water);font-variant-numeric:tabular-nums}
 .tt .tr.dry{color:var(--ink-3);font-weight:400}
 .tt.wet{background:color-mix(in srgb,var(--water) 12%,var(--surface-2))}
+.days-top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px}
+.days-top .seg button{padding:10px 14px;font-size:16px}
+.hrs{display:flex;flex-direction:column}
+.hr-row{display:grid;grid-template-columns:78px 30px 52px minmax(0,1fr);align-items:center;gap:8px;padding:8px 8px;border-radius:10px;min-height:46px}
+.hr-row:nth-child(even){background:var(--surface-2)}
+.hr-row.wet{background:color-mix(in srgb,var(--water) 14%,var(--surface))}
+.hr-t{font-weight:700;font-size:16px;color:var(--ink-2);white-space:nowrap}
+.hr-v{font-family:var(--display);font-weight:800;font-size:22px;font-variant-numeric:tabular-nums}
+.hr-r{display:flex;align-items:center;gap:8px;font-size:16px;min-width:0}
+.hr-r b{color:var(--water);font-variant-numeric:tabular-nums;min-width:40px}
+.hr-r.dry{color:var(--ink-3)}
+.hr-bar{flex:none;width:70px;height:8px;border-radius:99px;background:var(--rule);overflow:hidden}
+.hr-bar i{display:block;height:100%;background:var(--water);border-radius:99px}
+.hr-k{color:var(--ink-2);font-size:14.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:420px){.hr-bar{width:44px}.days-top .seg{width:100%}.days-top .seg button{flex:1}}
 .day{display:flex;flex-direction:column;gap:8px}
 .day-h{display:flex;justify-content:space-between;align-items:baseline;gap:10px;border-bottom:1.5px solid var(--rule);padding-bottom:6px}
 .day-h b{font-family:var(--display);font-size:21px;font-weight:800}
@@ -252,9 +267,15 @@ body{margin:0}
     </section>
 
     <section class="panel" aria-label="The next two days">
-      <div>
-        <h2>The next 2 days</h2>
-        <p class="sub">Temperature and chance of rain, every 3 hours.</p>
+      <div class="days-top">
+        <div>
+          <h2>The next 2 days</h2>
+          <p class="sub">Temperature and chance of rain.</p>
+        </div>
+        <div class="seg" role="group" aria-label="How much detail">
+          <button id="step3" data-step="3" aria-pressed="true">Every 3 hours</button>
+          <button id="step1" data-step="1" aria-pressed="false">Every hour</button>
+        </div>
       </div>
       <div id="days" style="display:flex;flex-direction:column;gap:16px"></div>
     </section>
@@ -946,10 +967,12 @@ function renderWear(){
   $("hilo").innerHTML=`<span>Next 24 hours:</span><span>High <b>${hi}°</b> around ${esc(when(rows[hiI].t))}</span><span>Low <b>${lo}°</b> around ${esc(when(rows[loI].t))}</span>`;
   renderDays();
 }
+let daysStep=store.get("rc.step")===1?1:3;
 function renderDays(){
-  const groups=[], today=dow(rows[0].t);
-  for(let i=0;i<rows.length;i+=3){
-    const blk=rows.slice(i,i+3), ab=A.slice(i,i+3), h=rows[i], d=dow(h.t);
+  document.querySelectorAll("[data-step]").forEach(b=>b.setAttribute("aria-pressed",String(+b.dataset.step===daysStep)));
+  const step=daysStep, groups=[], today=dow(rows[0].t);
+  for(let i=0;i<rows.length;i+=step){
+    const blk=rows.slice(i,i+step), ab=A.slice(i,i+step), h=rows[i], d=dow(h.t);
     const pop=Math.max(...blk.map(x=>x.pop||0)), k=Math.max(...ab.map(a=>ci(a.intensityClass)));
     let g=groups[groups.length-1]; if(!g||g.d!==d){g={d,items:[]};groups.push(g);}
     g.items.push({i,h,pop,k,a:ab.reduce((m,a)=>ci(a.intensityClass)>ci(m.intensityClass)?a:m,ab[0])});
@@ -958,7 +981,11 @@ function renderDays(){
   $("days").innerHTML=groups.map((g,gi)=>{
     const ts=g.items.map(x=>x.h.temp);
     const label=gi===0&&g.d===today?"Today":g.d===dow(new Date(Date.now()+86400e3))?"Tomorrow, "+g.d:g.d;
-    return `<div class="day"><div class="day-h"><b>${esc(label)}</b><span>${g.items.length>1?`${Math.min(...ts)}° to ${Math.max(...ts)}°`:""}</span></div><div class="temps">${g.items.map(x=>{
+    const head=`<div class="day-h"><b>${esc(label)}</b><span>${g.items.length>1?`${Math.min(...ts)}° to ${Math.max(...ts)}°`:""}</span></div>`;
+    if(step===1) return `<div class="day">${head}<div class="hrs">${g.items.map(x=>{
+      const rainy=x.pop>=20;
+      return `<div class="hr-row${rainy&&x.pop>=50?" wet":""}"><span class="hr-t">${esc(x.i===0?"Now":hl(x.h.t))}</span>${skyIcon(x.h,x.pop>=40?x.a:null)}<span class="hr-v">${x.h.temp}°</span>${rainy?`<span class="hr-r"><span class="hr-bar"><i style="width:${x.pop}%"></i></span><b>${x.pop}%</b><span class="hr-k">${x.k>0?esc(PLAIN[RainFeel.SCALE[x.k].cls]):""}</span></span>`:`<span class="hr-r dry">Dry</span>`}</div>`;}).join("")}</div></div>`;
+    return `<div class="day">${head}<div class="temps">${g.items.map(x=>{
       const f=feelsOf(x.h), rainy=x.pop>=20;
       const rl=rainy?`<span class="tr">${drop}${x.pop}%</span><span class="td">${x.k>0?esc(PLAIN[RainFeel.SCALE[x.k].cls]):"Possible"}</span>`:`<span class="tr dry">Dry</span><span class="td"></span>`;
       return `<div class="tt${f<45?" cold":f>=85?" hot":""}${rainy&&x.pop>=50?" wet":""}"><span class="tm">${esc(x.i===0?"Now":hl(x.h.t))}</span>${skyIcon(x.h,x.pop>=40?x.a:null)}<span class="tv">${x.h.temp}°</span>${rl}</div>`;}).join("")}</div></div>`;
@@ -1083,6 +1110,7 @@ function renderFoot(){
 
 /* ---------- events ---------- */
 $("hours").addEventListener("click",e=>{const b=e.target.closest(".hour");if(!b)return;sel=+b.dataset.i;document.querySelectorAll(".hour").forEach(x=>x.setAttribute("aria-pressed",String(+x.dataset.i===sel)));renderOutfits();});
+document.querySelector(".days-top .seg").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;daysStep=+b.dataset.step;store.set("rc.step",daysStep);renderDays();});
 $("durs").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;dur=+b.dataset.m;document.querySelectorAll("#durs button").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));renderOutfits();});
 document.addEventListener("visibilitychange",()=>{if(!document.hidden){render();refresh(false);}});
 window.addEventListener("online",()=>refresh(true));
